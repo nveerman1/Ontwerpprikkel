@@ -52,7 +52,7 @@ test("filters kunnen worden aangepast en generatie blijft werken", async ({
   await page.getByRole("option", { name: "Systeem" }).click();
 
   await page.getByRole("button", { name: /Richting:/ }).click();
-  await page.getByRole("option", { name: "Duurzaamheid" }).click();
+  await page.getByRole("option", { name: "Schoolomgeving" }).click();
 
   await page.getByRole("button", { name: /Randvoorwaarde:/ }).click();
   await page.getByRole("option", { name: "Zonder stroom" }).click();
