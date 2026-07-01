@@ -5,23 +5,25 @@ import { CategoryItem, IdeaSegments } from "@/types/generator";
 const makeItem = (overrides?: Partial<CategoryItem>): CategoryItem => ({
   id: "test-item",
   text: "Test",
-  directions: ["sustainability"],
+  directions: ["energyWaterSafety"],
   ...overrides,
 });
 
 describe("itemMatchesFilters", () => {
   it("matches when direction is in the item directions", () => {
-    const item = makeItem({ directions: ["sustainability", "mobility"] });
-    expect(itemMatchesFilters(item, "sustainability")).toBe(true);
+    const item = makeItem({
+      directions: ["energyWaterSafety", "livingWorkTraffic"],
+    });
+    expect(itemMatchesFilters(item, "energyWaterSafety")).toBe(true);
   });
 
   it("does not match when direction is missing", () => {
-    const item = makeItem({ directions: ["mobility"] });
-    expect(itemMatchesFilters(item, "sustainability")).toBe(false);
+    const item = makeItem({ directions: ["livingWorkTraffic"] });
+    expect(itemMatchesFilters(item, "energyWaterSafety")).toBe(false);
   });
 
   it("matches any direction when no direction filter is specified", () => {
-    const item = makeItem({ directions: ["mobility"] });
+    const item = makeItem({ directions: ["livingWorkTraffic"] });
     expect(itemMatchesFilters(item, undefined)).toBe(true);
   });
 
