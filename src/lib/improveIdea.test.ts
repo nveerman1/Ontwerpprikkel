@@ -7,22 +7,22 @@ const makeIdea = (): Idea => ({
   id: "test-id-1",
   createdAt: "2025-01-01T00:00:00.000Z",
   segments: {
-    productForm: { id: "pf-1", text: "houder", directions: ["sustainability"] },
+    productForm: { id: "pf-1", text: "houder", directions: ["energyWaterSafety"] },
     audience: {
       id: "au-1",
       text: "leerlingen",
-      directions: ["sustainability"],
+      directions: ["energyWaterSafety"],
     },
     problem: {
       id: "pr-1",
       text: "organisatie",
-      directions: ["sustainability"],
+      directions: ["energyWaterSafety"],
     },
-    market: { id: "ma-1", text: "school", directions: ["sustainability"] },
+    market: { id: "ma-1", text: "school", directions: ["energyWaterSafety"] },
     constraint: {
       id: "co-1",
       text: "herbruikbaar is",
-      directions: ["sustainability"],
+      directions: ["energyWaterSafety"],
     },
   },
   sentence: "Ontwerp een houder voor leerlingen.",

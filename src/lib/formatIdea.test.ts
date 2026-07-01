@@ -3,14 +3,14 @@ import { formatIdeaSentence, ideaSignature } from "@/lib/formatIdea";
 import { IdeaSegments } from "@/types/generator";
 
 const makeSegments = (overrides?: Partial<IdeaSegments>): IdeaSegments => ({
-  productForm: { id: "pf-1", text: "houder", directions: ["sustainability"] },
-  audience: { id: "au-1", text: "leerlingen", directions: ["sustainability"] },
-  problem: { id: "pr-1", text: "organisatie", directions: ["sustainability"] },
-  market: { id: "ma-1", text: "school", directions: ["sustainability"] },
+  productForm: { id: "pf-1", text: "houder", directions: ["energyWaterSafety"] },
+  audience: { id: "au-1", text: "leerlingen", directions: ["energyWaterSafety"] },
+  problem: { id: "pr-1", text: "organisatie", directions: ["energyWaterSafety"] },
+  market: { id: "ma-1", text: "school", directions: ["energyWaterSafety"] },
   constraint: {
     id: "co-1",
     text: "herbruikbaar is",
-    directions: ["sustainability"],
+    directions: ["energyWaterSafety"],
   },
   ...overrides,
 });
@@ -32,7 +32,7 @@ describe("formatIdeaSentence", () => {
       productForm: {
         id: "pf-x",
         text: "bouwpakket",
-        directions: ["mobility"],
+        directions: ["livingWorkTraffic"],
       },
     });
     const sentence = formatIdeaSentence(segments);
@@ -52,7 +52,7 @@ describe("ideaSignature", () => {
       productForm: {
         id: "pf-different",
         text: "sensor",
-        directions: ["sustainability"],
+        directions: ["energyWaterSafety"],
       },
     });
     expect(ideaSignature(a)).not.toBe(ideaSignature(b));

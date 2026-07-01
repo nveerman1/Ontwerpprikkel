@@ -37,11 +37,11 @@ describe("generateIdea", () => {
   });
 
   it("uses filters when direction is specified", () => {
-    const input: GeneratorInput = { direction: "sustainability" };
+    const input: GeneratorInput = { direction: "energyWaterSafety" };
     const idea = generateIdea(input, {}, null, []);
     // The idea should be generated successfully with or without filter match
     expect(idea).toBeDefined();
-    expect(idea.input.direction).toBe("sustainability");
+    expect(idea.input.direction).toBe("energyWaterSafety");
   });
 
   it("locked segments remain unchanged", () => {
@@ -78,7 +78,7 @@ describe("generateIdea", () => {
     // Use a very restrictive combination that likely exhausts attempts
     vi.spyOn(Math, "random").mockReturnValue(0);
     const input: GeneratorInput = {
-      direction: "sustainability",
+      direction: "energyWaterSafety",
       type: "technicalDesign",
       constraintMode: "withoutPower",
     };
