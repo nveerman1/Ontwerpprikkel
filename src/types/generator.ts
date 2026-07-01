@@ -74,6 +74,7 @@ export interface Idea {
   input: GeneratorInput;
   signature: string;
   selectedWorkformId?: string;
+  usedFallback?: boolean;
 }
 
 export type WorkformCategory =

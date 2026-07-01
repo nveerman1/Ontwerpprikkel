@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import ChallengeArea from "@/components/ChallengeArea";
 import FilterBar from "@/components/FilterBar";
 import Header from "@/components/Header";
@@ -73,6 +73,14 @@ export default function Home() {
   const [fallbackCopyText, setFallbackCopyText] = useState("");
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const directionDropdownOptions = useMemo(
     () =>
       directionOptions.map((item) => ({
@@ -115,6 +123,9 @@ export default function Home() {
     setCurrentIdea(nextIdea);
     setRecentSignatures((prev) => [nextIdea.signature, ...prev].slice(0, 10));
     setFallbackCopyText("");
+    if (nextIdea.usedFallback) {
+      showToast("Geen perfecte match — filters zijn versoepeld");
+    }
   };
 
   const handleNewChallenge = () => {
@@ -177,9 +188,13 @@ export default function Home() {
       ...savedIdeas,
     ].slice(0, MAX_SAVED_IDEAS);
 
-    const persisted = persistSavedIdeas(nextSavedIdeas);
-    if (!persisted) {
+    const result = persistSavedIdeas(nextSavedIdeas);
+    if (result === "unavailable") {
       showToast("Opslaan is niet beschikbaar in deze browser.");
+      return;
+    }
+    if (result === "quota_exceeded") {
+      showToast("Opslag is vol — verwijder oude ideeën.");
       return;
     }
 

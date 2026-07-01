@@ -128,6 +128,7 @@ export const generateIdea = (
     sentence: formatIdeaSentence(fallbackSegments),
     input,
     signature: ideaSignature(fallbackSegments),
+    usedFallback: true,
   };
 };
 

@@ -17,13 +17,18 @@ export const loadSavedIdeas = (): SavedIdea[] => {
   }
 };
 
-export const persistSavedIdeas = (ideas: SavedIdea[]) => {
-  if (!isAvailable()) return false;
+export type PersistResult = "success" | "quota_exceeded" | "unavailable";
+
+export const persistSavedIdeas = (ideas: SavedIdea[]): PersistResult => {
+  if (!isAvailable()) return "unavailable";
 
   try {
     window.localStorage.setItem(SAVED_IDEAS_KEY, JSON.stringify(ideas));
-    return true;
-  } catch {
-    return false;
+    return "success";
+  } catch (error: unknown) {
+    if (error instanceof DOMException && error.name === "QuotaExceededError") {
+      return "quota_exceeded";
+    }
+    return "unavailable";
   }
 };

@@ -1,5 +1,9 @@
-export const randomItem = <T,>(items: T[]): T =>
-  items[Math.floor(Math.random() * items.length)];
+export const randomItem = <T,>(items: T[]): T => {
+  if (items.length === 0) {
+    throw new Error("randomItem called with empty array");
+  }
+  return items[Math.floor(Math.random() * items.length)];
+};
 
 export const uniqueBy = <T,>(items: T[], keyFn: (item: T) => string): T[] => {
   const seen = new Set<string>();
