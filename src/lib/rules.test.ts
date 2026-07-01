@@ -11,7 +11,9 @@ const makeItem = (overrides?: Partial<CategoryItem>): CategoryItem => ({
 
 describe("itemMatchesFilters", () => {
   it("matches when direction is in the item directions", () => {
-    const item = makeItem({ directions: ["energyWaterSafety", "livingWorkTraffic"] });
+    const item = makeItem({
+      directions: ["energyWaterSafety", "livingWorkTraffic"],
+    });
     expect(itemMatchesFilters(item, "energyWaterSafety")).toBe(true);
   });
 

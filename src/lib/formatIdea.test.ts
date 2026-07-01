@@ -3,9 +3,21 @@ import { formatIdeaSentence, ideaSignature } from "@/lib/formatIdea";
 import { IdeaSegments } from "@/types/generator";
 
 const makeSegments = (overrides?: Partial<IdeaSegments>): IdeaSegments => ({
-  productForm: { id: "pf-1", text: "houder", directions: ["energyWaterSafety"] },
-  audience: { id: "au-1", text: "leerlingen", directions: ["energyWaterSafety"] },
-  problem: { id: "pr-1", text: "organisatie", directions: ["energyWaterSafety"] },
+  productForm: {
+    id: "pf-1",
+    text: "houder",
+    directions: ["energyWaterSafety"],
+  },
+  audience: {
+    id: "au-1",
+    text: "leerlingen",
+    directions: ["energyWaterSafety"],
+  },
+  problem: {
+    id: "pr-1",
+    text: "organisatie",
+    directions: ["energyWaterSafety"],
+  },
   market: { id: "ma-1", text: "school", directions: ["energyWaterSafety"] },
   constraint: {
     id: "co-1",

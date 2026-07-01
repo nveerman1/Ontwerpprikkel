@@ -7,7 +7,11 @@ const makeIdea = (): Idea => ({
   id: "test-id-1",
   createdAt: "2025-01-01T00:00:00.000Z",
   segments: {
-    productForm: { id: "pf-1", text: "houder", directions: ["energyWaterSafety"] },
+    productForm: {
+      id: "pf-1",
+      text: "houder",
+      directions: ["energyWaterSafety"],
+    },
     audience: {
       id: "au-1",
       text: "leerlingen",

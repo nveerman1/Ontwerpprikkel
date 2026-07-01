@@ -11,7 +11,11 @@ const makeSavedIdea = (id = "saved-1"): SavedIdea => ({
   createdAt: "2025-01-01T00:00:00.000Z",
   savedAt: "2025-01-01T00:00:01.000Z",
   segments: {
-    productForm: { id: "pf-1", text: "houder", directions: ["energyWaterSafety"] },
+    productForm: {
+      id: "pf-1",
+      text: "houder",
+      directions: ["energyWaterSafety"],
+    },
     audience: {
       id: "au-1",
       text: "leerlingen",
