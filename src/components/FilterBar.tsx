@@ -60,23 +60,34 @@ export default function FilterBar({
         onChange={(value) => onConstraintChange(value as ConstraintMode)}
       />
 
-      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onClearLocks}>
+      <button
+        className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20"
+        onClick={onClearLocks}
+      >
         🔓 Slotjes wissen
       </button>
-      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onResetFilters}>
+      <button
+        className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20"
+        onClick={onResetFilters}
+      >
         Reset filters
       </button>
 
       <div className="mx-1 hidden h-8 w-px bg-white/20 lg:block" />
 
-      <button className="rounded-[14px] bg-white px-3 py-2 text-sm font-[850] text-[#c9563a] shadow-[0_4px_16px_rgba(45,24,18,.12)]" onClick={onNewChallenge}>
+      <button
+        className="rounded-[14px] bg-white px-3 py-2 text-sm font-[850] text-[#c9563a] shadow-[0_4px_16px_rgba(45,24,18,.12)]"
+        onClick={onNewChallenge}
+      >
         ↻ Nieuwe uitdaging
       </button>
       <CustomDropdown
         label="Maak beter"
         value=""
         options={improveDropdownOptions}
-        onChange={(value) => onImprove(value as (typeof improvementOptions)[number])}
+        onChange={(value) =>
+          onImprove(value as (typeof improvementOptions)[number])
+        }
         actionMode
         icon="✨"
       />

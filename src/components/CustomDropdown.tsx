@@ -92,8 +92,13 @@ export default function CustomDropdown({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className="whitespace-nowrap">{icon && <span className="mr-1">{icon}</span>}{displayLabel}</span>
-        <span className="ml-1 text-xs" aria-hidden="true">▼</span>
+        <span className="whitespace-nowrap">
+          {icon && <span className="mr-1">{icon}</span>}
+          {displayLabel}
+        </span>
+        <span className="ml-1 text-xs" aria-hidden="true">
+          ▼
+        </span>
       </button>
 
       {open && (

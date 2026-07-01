@@ -11,7 +11,8 @@ export default function WorkformRail({
   selectedWorkformId,
   onSelectWorkform,
 }: WorkformRailProps) {
-  const selected = workforms.find((item) => item.id === selectedWorkformId) ?? null;
+  const selected =
+    workforms.find((item) => item.id === selectedWorkformId) ?? null;
 
   return (
     <aside className="flex w-full flex-col gap-3 self-stretch">

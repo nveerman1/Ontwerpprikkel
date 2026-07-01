@@ -8,25 +8,103 @@ export interface DirectionOption {
 }
 
 export const directionOptions: DirectionOption[] = [
-  { value: "schoolEnvironment", label: "Schoolomgeving", group: "school", description: "Aula, lokaal, pauze, kluisjes" },
-  { value: "makerSpace", label: "MakerSpace", group: "school", description: "Prototypen, gereedschap, opruimen" },
-  { value: "breakAndCafeteria", label: "Pauze & aula", group: "school", description: "Drukte, afval, rust" },
-  { value: "bikeStorage", label: "Fietsenstalling", group: "school", description: "Routes, veiligheid, parkeren" },
-  { value: "classroomLayout", label: "Lokaal/inrichting", group: "school", description: "Inrichting, werkplekken, focus" },
+  {
+    value: "schoolEnvironment",
+    label: "Schoolomgeving",
+    group: "school",
+    description: "Aula, lokaal, pauze, kluisjes",
+  },
+  {
+    value: "makerSpace",
+    label: "MakerSpace",
+    group: "school",
+    description: "Prototypen, gereedschap, opruimen",
+  },
+  {
+    value: "breakAndCafeteria",
+    label: "Pauze & aula",
+    group: "school",
+    description: "Drukte, afval, rust",
+  },
+  {
+    value: "bikeStorage",
+    label: "Fietsenstalling",
+    group: "school",
+    description: "Routes, veiligheid, parkeren",
+  },
+  {
+    value: "classroomLayout",
+    label: "Lokaal/inrichting",
+    group: "school",
+    description: "Inrichting, werkplekken, focus",
+  },
 
-  { value: "sustainability", label: "Duurzaamheid", group: "societal", description: "Afval, hergebruik, energie, water" },
-  { value: "healthcare", label: "Zorg & gezondheid", group: "societal", description: "Welzijn, bewegen, zelfstandigheid" },
-  { value: "sports", label: "Sport & bewegen", group: "societal", description: "Training, spel, motivatie" },
-  { value: "mobility", label: "Mobiliteit", group: "societal", description: "Fiets, OV, lopen, routes" },
-  { value: "housingAndSpace", label: "Wonen & ruimte", group: "societal", description: "Leefomgeving, comfort, ruimte" },
+  {
+    value: "sustainability",
+    label: "Duurzaamheid",
+    group: "societal",
+    description: "Afval, hergebruik, energie, water",
+  },
+  {
+    value: "healthcare",
+    label: "Zorg & gezondheid",
+    group: "societal",
+    description: "Welzijn, bewegen, zelfstandigheid",
+  },
+  {
+    value: "sports",
+    label: "Sport & bewegen",
+    group: "societal",
+    description: "Training, spel, motivatie",
+  },
+  {
+    value: "mobility",
+    label: "Mobiliteit",
+    group: "societal",
+    description: "Fiets, OV, lopen, routes",
+  },
+  {
+    value: "housingAndSpace",
+    label: "Wonen & ruimte",
+    group: "societal",
+    description: "Leefomgeving, comfort, ruimte",
+  },
 
-  { value: "humanHealth", label: "Mens & Gezondheid", group: "worldsOfTechnology" },
-  { value: "energyWaterSafety", label: "Energie, Water & Veiligheid", group: "worldsOfTechnology" },
-  { value: "foodNature", label: "Voeding & Natuur", group: "worldsOfTechnology" },
-  { value: "livingWorkTraffic", label: "Wonen, Werken & Verkeer", group: "worldsOfTechnology" },
-  { value: "designProductionTrade", label: "Ontwerp, Productie & Wereldhandel", group: "worldsOfTechnology" },
-  { value: "digitalMediaEntertainment", label: "Digitaal, Media & Entertainment", group: "worldsOfTechnology" },
-  { value: "highTechScience", label: "Hi-tech & Science", group: "worldsOfTechnology" },
+  {
+    value: "humanHealth",
+    label: "Mens & Gezondheid",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "energyWaterSafety",
+    label: "Energie, Water & Veiligheid",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "foodNature",
+    label: "Voeding & Natuur",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "livingWorkTraffic",
+    label: "Wonen, Werken & Verkeer",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "designProductionTrade",
+    label: "Ontwerp, Productie & Wereldhandel",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "digitalMediaEntertainment",
+    label: "Digitaal, Media & Entertainment",
+    group: "worldsOfTechnology",
+  },
+  {
+    value: "highTechScience",
+    label: "Hi-tech & Science",
+    group: "worldsOfTechnology",
+  },
 ];
 
 export const directionGroupLabel: Record<DirectionGroup, string> = {

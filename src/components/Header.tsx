@@ -12,10 +12,16 @@ export default function Header({ onOpenSaved, onCopy, onSave }: HeaderProps) {
         OntwerpPrikkel
       </div>
       <div className="flex items-center gap-2">
-        <button className="rounded-xl border border-white/10 bg-white/12 px-3 py-2.5 text-sm font-extrabold hover:bg-white/20" onClick={onCopy}>
+        <button
+          className="rounded-xl border border-white/10 bg-white/12 px-3 py-2.5 text-sm font-extrabold hover:bg-white/20"
+          onClick={onCopy}
+        >
           📋 Kopieer
         </button>
-        <button className="rounded-xl border border-white/10 bg-white/12 px-3 py-2.5 text-sm font-extrabold hover:bg-white/20" onClick={onSave}>
+        <button
+          className="rounded-xl border border-white/10 bg-white/12 px-3 py-2.5 text-sm font-extrabold hover:bg-white/20"
+          onClick={onSave}
+        >
           ★ Bewaar
         </button>
         <button

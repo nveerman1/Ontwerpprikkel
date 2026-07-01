@@ -15,8 +15,12 @@ export default function WorkformPanel({ workform }: WorkformPanelProps) {
 
   return (
     <div className="rounded-[20px] bg-white/93 p-5 text-[#222] shadow-[0_20px_70px_rgba(45,24,18,.22)]">
-      <h3 className="mb-3 text-2xl font-black tracking-tight">{workform.title}</h3>
-      <p className="mb-4 text-base font-extrabold leading-relaxed text-[#444]">{workform.goal}</p>
+      <h3 className="mb-3 text-2xl font-black tracking-tight">
+        {workform.title}
+      </h3>
+      <p className="mb-4 text-base font-extrabold leading-relaxed text-[#444]">
+        {workform.goal}
+      </p>
 
       <dl className="mb-3 grid grid-cols-[90px_1fr] gap-x-3 gap-y-2 text-sm leading-relaxed max-sm:grid-cols-1">
         <dt className="font-black text-[#333]">Tijd</dt>

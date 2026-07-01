@@ -1,14 +1,7 @@
 export type AssignmentType =
-  | "product"
-  | "system"
-  | "space"
-  | "technicalDesign"
-  | "researchIdea";
+  "product" | "system" | "space" | "technicalDesign" | "researchIdea";
 
-export type DirectionGroup =
-  | "school"
-  | "societal"
-  | "worldsOfTechnology";
+export type DirectionGroup = "school" | "societal" | "worldsOfTechnology";
 
 export type ConstraintMode =
   | "random"
@@ -78,11 +71,7 @@ export interface Idea {
 }
 
 export type WorkformCategory =
-  | "ideation"
-  | "problem"
-  | "design"
-  | "testing"
-  | "presentation";
+  "ideation" | "problem" | "design" | "testing" | "presentation";
 
 export interface Workform {
   id: string;
