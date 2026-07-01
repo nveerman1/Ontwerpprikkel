@@ -19,3 +19,6 @@ jobs:
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v4
+        # Requires "Dependency graph" to be enabled in Settings → Security & Analysis.
+        # continue-on-error keeps PRs unblocked until that setting is turned on.
+        continue-on-error: true
