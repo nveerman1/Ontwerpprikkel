@@ -219,7 +219,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#d96345] text-white">
+    <div className="min-h-screen overflow-x-hidden bg-[#d96345] text-white">
       <Header
         onOpenSaved={() => setSavedDrawerOpen(true)}
         onCopy={() => currentIdea && handleCopy(currentIdea)}
