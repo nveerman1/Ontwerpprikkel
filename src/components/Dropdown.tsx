@@ -1,4 +1,6 @@
-import CustomDropdown, { CustomDropdownOption } from "@/components/CustomDropdown";
+import CustomDropdown, {
+  CustomDropdownOption,
+} from "@/components/CustomDropdown";
 
 export type { CustomDropdownOption as DropdownOption };
 

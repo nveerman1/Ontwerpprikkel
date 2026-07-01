@@ -43,8 +43,10 @@ const pickWithFallback = (
   });
 
   if (pool.length > 0) return randomItem(pool);
-  if (!relaxDirection) return pickWithFallback(key, input, lockValue, true, relaxConstraint);
-  if (!relaxConstraint) return pickWithFallback(key, input, lockValue, true, true);
+  if (!relaxDirection)
+    return pickWithFallback(key, input, lockValue, true, relaxConstraint);
+  if (!relaxConstraint)
+    return pickWithFallback(key, input, lockValue, true, true);
   return randomItem(segmentMap[key]);
 };
 
@@ -61,7 +63,9 @@ export const generateIdea = (
       productForm: pickWithFallback(
         "productForm",
         input,
-        lockedSegments.productForm ? currentIdea?.segments.productForm : undefined,
+        lockedSegments.productForm
+          ? currentIdea?.segments.productForm
+          : undefined,
       ),
       audience: pickWithFallback(
         "audience",
@@ -81,7 +85,9 @@ export const generateIdea = (
       constraint: pickWithFallback(
         "constraint",
         input,
-        lockedSegments.constraint ? currentIdea?.segments.constraint : undefined,
+        lockedSegments.constraint
+          ? currentIdea?.segments.constraint
+          : undefined,
       ),
     };
 
@@ -91,7 +97,10 @@ export const generateIdea = (
     }
 
     const signature = ideaSignature(segments);
-    if (recentSignatures.includes(signature) && attempts < DUPLICATE_RETRY_LIMIT) {
+    if (
+      recentSignatures.includes(signature) &&
+      attempts < DUPLICATE_RETRY_LIMIT
+    ) {
       attempts += 1;
       continue;
     }
@@ -113,9 +122,10 @@ export const generateIdea = (
     market: randomItem(markets),
     constraint: randomItem(
       input.constraintMode && input.constraintMode !== "random"
-        ? constraints.filter(
-            (item) =>
-              item.constraintModes?.includes(input.constraintMode as ConstraintMode),
+        ? constraints.filter((item) =>
+            item.constraintModes?.includes(
+              input.constraintMode as ConstraintMode,
+            ),
           )
         : constraints,
     ),

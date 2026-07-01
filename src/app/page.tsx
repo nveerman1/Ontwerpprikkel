@@ -7,10 +7,7 @@ import Header from "@/components/Header";
 import SavedIdeasDrawer from "@/components/SavedIdeasDrawer";
 import Toast from "@/components/Toast";
 import { constraintOptions } from "@/data/constraints";
-import {
-  directionGroupLabel,
-  directionOptions,
-} from "@/data/directions";
+import { directionGroupLabel, directionOptions } from "@/data/directions";
 import { defaultWorkformId, workforms } from "@/data/workforms";
 import { generateIdea, refreshIdeaSegment } from "@/lib/generator";
 import { improveIdea } from "@/lib/improveIdea";
@@ -57,8 +54,9 @@ const buildCopyText = (idea: Idea, selectedWorkformId?: string) => {
 export default function Home() {
   const [input, setInput] = useState<GeneratorInput>(defaultInput);
   const [currentIdea, setCurrentIdea] = useState<Idea | null>(null);
-  const [lockedSegments, setLockedSegments] =
-    useState<Partial<Record<IdeaSegmentKey, boolean>>>({});
+  const [lockedSegments, setLockedSegments] = useState<
+    Partial<Record<IdeaSegmentKey, boolean>>
+  >({});
   const [recentSignatures, setRecentSignatures] = useState<string[]>([]);
   const [selectedWorkformId, setSelectedWorkformId] =
     useState(defaultWorkformId);
@@ -222,7 +220,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#d96345] text-white">
-      <Header onOpenSaved={() => setSavedDrawerOpen(true)} onCopy={() => currentIdea && handleCopy(currentIdea)} onSave={handleSave} />
+      <Header
+        onOpenSaved={() => setSavedDrawerOpen(true)}
+        onCopy={() => currentIdea && handleCopy(currentIdea)}
+        onSave={handleSave}
+      />
       <FilterBar
         type={input.type ?? "product"}
         direction={input.direction ?? "schoolEnvironment"}
@@ -237,7 +239,10 @@ export default function Home() {
           setInput((prev) => ({ ...prev, direction: value as Direction }))
         }
         onConstraintChange={(value) =>
-          setInput((prev) => ({ ...prev, constraintMode: value as ConstraintMode }))
+          setInput((prev) => ({
+            ...prev,
+            constraintMode: value as ConstraintMode,
+          }))
         }
         onClearLocks={handleClearLocks}
         onResetFilters={handleResetFilters}

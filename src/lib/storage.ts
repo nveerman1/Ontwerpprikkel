@@ -2,7 +2,8 @@ import { SavedIdea } from "@/types/generator";
 
 export const SAVED_IDEAS_KEY = "ontwerpprikkel.savedIdeas.v4";
 
-const isAvailable = () => typeof window !== "undefined" && !!window.localStorage;
+const isAvailable = () =>
+  typeof window !== "undefined" && !!window.localStorage;
 
 export const loadSavedIdeas = (): SavedIdea[] => {
   if (!isAvailable()) return [];

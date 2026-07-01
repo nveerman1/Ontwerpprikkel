@@ -26,7 +26,9 @@ export default function SavedIdeasDrawer({
       }`}
     >
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-black tracking-tight">Opgeslagen ideeën</h2>
+        <h2 className="text-2xl font-black tracking-tight">
+          Opgeslagen ideeën
+        </h2>
         <button
           className="h-9 w-9 rounded-full bg-[#222] text-lg text-white"
           onClick={onClose}
@@ -45,10 +47,14 @@ export default function SavedIdeasDrawer({
         <ul className="space-y-3">
           {savedIdeas.map((idea) => {
             const workform =
-              workforms.find((item) => item.id === idea.selectedWorkformId) ?? null;
+              workforms.find((item) => item.id === idea.selectedWorkformId) ??
+              null;
 
             return (
-              <li key={idea.id} className="rounded-2xl border border-[#eed8ca] bg-white p-3.5">
+              <li
+                key={idea.id}
+                className="rounded-2xl border border-[#eed8ca] bg-white p-3.5"
+              >
                 <strong className="mb-1 block">
                   Opgeslagen op{" "}
                   {new Date(idea.savedAt).toLocaleString("nl-NL", {
@@ -56,20 +62,31 @@ export default function SavedIdeasDrawer({
                     timeStyle: "short",
                   })}
                 </strong>
-                <p className="mb-2 text-sm leading-relaxed text-[#555]">{idea.sentence}</p>
+                <p className="mb-2 text-sm leading-relaxed text-[#555]">
+                  {idea.sentence}
+                </p>
                 {workform && (
                   <p className="mb-2 text-xs font-bold text-[#9b5c48]">
                     Werkvorm: {workform.title}
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2">
-                  <button className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black" onClick={() => onUse(idea)}>
+                  <button
+                    className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black"
+                    onClick={() => onUse(idea)}
+                  >
                     Gebruik opnieuw
                   </button>
-                  <button className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black" onClick={() => onCopy(idea)}>
+                  <button
+                    className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black"
+                    onClick={() => onCopy(idea)}
+                  >
                     Kopieer
                   </button>
-                  <button className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black" onClick={() => onDelete(idea.id)}>
+                  <button
+                    className="rounded-lg bg-[#ffe7d8] px-2.5 py-1.5 text-xs font-black"
+                    onClick={() => onDelete(idea.id)}
+                  >
                     Verwijder
                   </button>
                 </div>
