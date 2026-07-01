@@ -129,7 +129,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-zorgsignaleringssysteem",
-    text: "zorgsignaleringssysteem zonder app",
+    text: "zorgsignaleringssysteem (offline)",
     directions: ["humanHealth", "digitalMediaEntertainment"],
     typeCompatibility: ["system"],
     constraintModes: ["withoutApp", "withoutPower"],
