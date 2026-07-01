@@ -223,7 +223,12 @@ export const markets: CategoryItem[] = [
   {
     id: "ma-schoolplein",
     text: "een schoolplein",
-    directions: ["schoolEnvironment", "humanHealth", "livingWorkTraffic", "foodNature"],
+    directions: [
+      "schoolEnvironment",
+      "humanHealth",
+      "livingWorkTraffic",
+      "foodNature",
+    ],
   },
   {
     id: "ma-wateroverlast",
@@ -305,7 +310,11 @@ export const technologies: CategoryItem[] = [
   {
     id: "te-kleurcode",
     text: "kleurcodering",
-    directions: ["schoolEnvironment", "livingWorkTraffic", "digitalMediaEntertainment"],
+    directions: [
+      "schoolEnvironment",
+      "livingWorkTraffic",
+      "digitalMediaEntertainment",
+    ],
     constraintModes: ["withoutApp", "fastPrototype"],
   },
   {
@@ -375,7 +384,11 @@ export const trends: CategoryItem[] = [
   {
     id: "tr-gamification",
     text: "gamification",
-    directions: ["schoolEnvironment", "humanHealth", "digitalMediaEntertainment"],
+    directions: [
+      "schoolEnvironment",
+      "humanHealth",
+      "digitalMediaEntertainment",
+    ],
   },
   {
     id: "tr-personalisatie",
