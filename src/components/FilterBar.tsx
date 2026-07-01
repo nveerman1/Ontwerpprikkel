@@ -17,8 +17,6 @@ interface FilterBarProps {
   onResetFilters: () => void;
   onNewChallenge: () => void;
   onImprove: (action: (typeof improvementOptions)[number]) => void;
-  onCopy: () => void;
-  onSave: () => void;
 }
 
 const improveDropdownOptions = improvementOptions.map((item) => ({
@@ -40,8 +38,6 @@ export default function FilterBar({
   onResetFilters,
   onNewChallenge,
   onImprove,
-  onCopy,
-  onSave,
 }: FilterBarProps) {
   return (
     <nav className="relative z-50 flex flex-wrap items-center gap-2 border-b border-white/10 bg-black/5 px-4 py-4 md:px-7">
@@ -84,12 +80,6 @@ export default function FilterBar({
         actionMode
         icon="✨"
       />
-      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onCopy}>
-        📋 Kopieer
-      </button>
-      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onSave}>
-        ★ Bewaar
-      </button>
     </nav>
   );
 }

@@ -222,7 +222,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#d96345] text-white">
-      <Header onOpenSaved={() => setSavedDrawerOpen(true)} />
+      <Header onOpenSaved={() => setSavedDrawerOpen(true)} onCopy={() => currentIdea && handleCopy(currentIdea)} onSave={handleSave} />
       <FilterBar
         type={input.type ?? "product"}
         direction={input.direction ?? "schoolEnvironment"}
@@ -243,8 +243,6 @@ export default function Home() {
         onResetFilters={handleResetFilters}
         onNewChallenge={handleNewChallenge}
         onImprove={handleImprove}
-        onCopy={() => currentIdea && handleCopy(currentIdea)}
-        onSave={handleSave}
       />
 
       <main className="w-full px-4 pb-10 pt-6 md:px-6">
