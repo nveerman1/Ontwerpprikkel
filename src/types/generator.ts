@@ -1,7 +1,7 @@
 export type AssignmentType =
   "product" | "system" | "space" | "technicalDesign" | "researchIdea";
 
-export type DirectionGroup = "school" | "societal" | "worldsOfTechnology";
+export type DirectionGroup = "school" | "worldsOfTechnology";
 
 export type ConstraintMode =
   | "random"
