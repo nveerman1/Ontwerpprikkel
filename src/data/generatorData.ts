@@ -184,13 +184,6 @@ export const productForms: CategoryItem[] = [
     constraintModes: ["scaleModelSafe"],
   },
   {
-    id: "pf-onderhoudsmeldsysteem",
-    text: "onderhoudsmeldsysteem voor gedeelde spullen",
-    directions: ["schoolEnvironment", "designProductionTrade"],
-    typeCompatibility: ["system"],
-    constraintModes: ["withoutApp", "fastPrototype"],
-  },
-  {
     id: "pf-prikkelarme-rustzone",
     text: "prikkelarme rustzone",
     directions: ["humanHealth", "schoolEnvironment", "classroomLayout"],
@@ -289,13 +282,6 @@ export const productForms: CategoryItem[] = [
     constraintModes: ["recycledMaterial", "mechanical"],
   },
   {
-    id: "pf-waterdichte-opbergmodule",
-    text: "waterdichte opbergmodule",
-    directions: ["energyWaterSafety", "livingWorkTraffic", "bikeStorage"],
-    typeCompatibility: ["technicalDesign", "product"],
-    constraintModes: ["waterResistant", "maxTenEuro"],
-  },
-  {
     id: "pf-schaalmodeltestbank",
     text: "schaalmodeltestbank",
     directions: ["highTechScience", "makerSpace"],
@@ -343,13 +329,6 @@ export const productForms: CategoryItem[] = [
     directions: ["designProductionTrade", "makerSpace"],
     typeCompatibility: ["researchIdea"],
     constraintModes: ["recycledMaterial", "scaleModelSafe"],
-  },
-  {
-    id: "pf-schermvrije-feedbacktest",
-    text: "testopstelling voor schermvrije feedback",
-    directions: ["digitalMediaEntertainment", "schoolEnvironment"],
-    typeCompatibility: ["researchIdea"],
-    constraintModes: ["withoutApp", "withoutPower"],
   },
   {
     id: "pf-isolatie-warmteverlies-experiment",
