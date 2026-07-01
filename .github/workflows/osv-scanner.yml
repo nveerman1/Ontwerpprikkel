@@ -9,28 +9,18 @@ on:
     - cron: "0 6 * * 1"
 
 permissions:
+  actions: read
   contents: read
   security-events: write
 
 jobs:
   scan:
-    name: OSV scan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run OSV Scanner
-        uses: google/osv-scanner-action/osv-scanner-action@v2
-        with:
-          scan-args: |-
-            --lockfile=package-lock.json
-            --format=sarif
-            --output=osv-results.sarif
-        continue-on-error: true
-
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: osv-results.sarif
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.3.8
+    with:
+      scan-args: |-
+        -r
+        ./
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
