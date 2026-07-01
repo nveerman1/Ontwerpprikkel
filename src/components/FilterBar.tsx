@@ -1,6 +1,7 @@
 import { improvementOptions } from "@/data/improvementRules";
 import { AssignmentType, ConstraintMode, Direction } from "@/types/generator";
 import Dropdown, { DropdownOption } from "@/components/Dropdown";
+import CustomDropdown from "@/components/CustomDropdown";
 
 interface FilterBarProps {
   type: AssignmentType;
@@ -20,6 +21,11 @@ interface FilterBarProps {
   onSave: () => void;
 }
 
+const improveDropdownOptions = improvementOptions.map((item) => ({
+  value: item,
+  label: item,
+}));
+
 export default function FilterBar({
   type,
   direction,
@@ -38,7 +44,7 @@ export default function FilterBar({
   onSave,
 }: FilterBarProps) {
   return (
-    <nav className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-black/5 px-4 py-4 md:px-7">
+    <nav className="relative z-50 flex flex-wrap items-center gap-2 border-b border-white/10 bg-black/5 px-4 py-4 md:px-7">
       <Dropdown
         label="Type:"
         value={type}
@@ -58,39 +64,31 @@ export default function FilterBar({
         onChange={(value) => onConstraintChange(value as ConstraintMode)}
       />
 
-      <button className="rounded-xl border border-white/15 bg-white/12 px-3 py-2 text-sm font-black" onClick={onClearLocks}>
-        Slotjes wissen
+      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onClearLocks}>
+        🔓 Slotjes wissen
       </button>
-      <button className="rounded-xl border border-white/15 bg-white/12 px-3 py-2 text-sm font-black" onClick={onResetFilters}>
+      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onResetFilters}>
         Reset filters
       </button>
 
       <div className="mx-1 hidden h-8 w-px bg-white/20 lg:block" />
 
-      <button className="rounded-xl bg-white px-3 py-2 text-sm font-black text-[#c9563a]" onClick={onNewChallenge}>
-        Nieuwe uitdaging
+      <button className="rounded-[14px] bg-white px-3 py-2 text-sm font-[850] text-[#c9563a] shadow-[0_4px_16px_rgba(45,24,18,.12)]" onClick={onNewChallenge}>
+        ↻ Nieuwe uitdaging
       </button>
-      <select
-        className="rounded-xl border border-white/15 bg-white/12 px-3 py-2 text-sm font-black text-white"
-        defaultValue=""
-        onChange={(event) => {
-          if (!event.target.value) return;
-          onImprove(event.target.value as (typeof improvementOptions)[number]);
-          event.target.value = "";
-        }}
-      >
-        <option value="">Maak beter</option>
-        {improvementOptions.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-      <button className="rounded-xl border border-white/15 bg-white/12 px-3 py-2 text-sm font-black" onClick={onCopy}>
-        Kopieer
+      <CustomDropdown
+        label="Maak beter"
+        value=""
+        options={improveDropdownOptions}
+        onChange={(value) => onImprove(value as (typeof improvementOptions)[number])}
+        actionMode
+        icon="✨"
+      />
+      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onCopy}>
+        📋 Kopieer
       </button>
-      <button className="rounded-xl border border-white/15 bg-white/12 px-3 py-2 text-sm font-black" onClick={onSave}>
-        Bewaar
+      <button className="rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white hover:bg-white/20" onClick={onSave}>
+        ★ Bewaar
       </button>
     </nav>
   );
