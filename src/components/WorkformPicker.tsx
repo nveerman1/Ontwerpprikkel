@@ -38,6 +38,7 @@ export default function WorkformPicker({
       value={selectedWorkformId}
       options={options}
       onChange={onChange}
+      icon="🧩"
     />
   );
 }

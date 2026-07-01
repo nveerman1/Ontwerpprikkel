@@ -17,6 +17,8 @@ interface CustomDropdownProps {
   onChange: (value: string) => void;
   /** If true, selecting resets value to "" after calling onChange (action-style dropdown) */
   actionMode?: boolean;
+  /** Optional icon/emoji shown before the label */
+  icon?: string;
   className?: string;
 }
 
@@ -26,6 +28,7 @@ export default function CustomDropdown({
   options,
   onChange,
   actionMode = false,
+  icon,
   className,
 }: CustomDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -89,22 +92,8 @@ export default function CustomDropdown({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className="whitespace-nowrap">{displayLabel}</span>
-        <svg
-          className={cn(
-            "ml-1 h-3.5 w-3.5 shrink-0 transition-transform",
-            open && "rotate-180",
-          )}
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <span className="whitespace-nowrap">{icon && <span className="mr-1">{icon}</span>}{displayLabel}</span>
+        <span className="ml-1 text-xs" aria-hidden="true">▼</span>
       </button>
 
       {open && (
@@ -143,18 +132,12 @@ export default function CustomDropdown({
                       )}
                     </div>
                     {isSelected && (
-                      <svg
-                        className="ml-2 h-4 w-4 shrink-0 text-[#c9563a]"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
+                      <span
+                        className="ml-2 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-lg border-2 border-[#e0b09a] text-sm font-[950] text-[#c9563a]"
                         aria-hidden="true"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                        ✓
+                      </span>
                     )}
                   </button>
                 );
