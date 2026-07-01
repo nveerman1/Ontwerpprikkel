@@ -40,37 +40,6 @@ export const directionOptions: DirectionOption[] = [
   },
 
   {
-    value: "sustainability",
-    label: "Duurzaamheid",
-    group: "societal",
-    description: "Afval, hergebruik, energie, water",
-  },
-  {
-    value: "healthcare",
-    label: "Zorg & gezondheid",
-    group: "societal",
-    description: "Welzijn, bewegen, zelfstandigheid",
-  },
-  {
-    value: "sports",
-    label: "Sport & bewegen",
-    group: "societal",
-    description: "Training, spel, motivatie",
-  },
-  {
-    value: "mobility",
-    label: "Mobiliteit",
-    group: "societal",
-    description: "Fiets, OV, lopen, routes",
-  },
-  {
-    value: "housingAndSpace",
-    label: "Wonen & ruimte",
-    group: "societal",
-    description: "Leefomgeving, comfort, ruimte",
-  },
-
-  {
     value: "humanHealth",
     label: "Mens & Gezondheid",
     group: "worldsOfTechnology",
@@ -109,7 +78,6 @@ export const directionOptions: DirectionOption[] = [
 
 export const directionGroupLabel: Record<DirectionGroup, string> = {
   school: "Schoolcontext",
-  societal: "Maatschappelijke thema's",
   worldsOfTechnology: "7 werelden van techniek",
 };
 
