@@ -18,21 +18,21 @@ export const productForms: CategoryItem[] = [
   {
     id: "pf-mechanisch-sorteren",
     text: "mechanisch sorteersysteem",
-    directions: ["sustainability", "makerSpace", "designProductionTrade"],
+    directions: ["makerSpace", "designProductionTrade"],
     typeCompatibility: ["technicalDesign", "system"],
     constraintModes: ["mechanical", "recycledMaterial", "fastPrototype"],
   },
   {
     id: "pf-rustmeubel",
     text: "compact rustmeubel",
-    directions: ["schoolEnvironment", "healthcare", "housingAndSpace"],
+    directions: ["schoolEnvironment", "humanHealth", "livingWorkTraffic"],
     typeCompatibility: ["space", "product"],
     constraintModes: ["foldable", "fastPrototype"],
   },
   {
     id: "pf-fietsparkeerhulp",
     text: "fietsparkeerhulp",
-    directions: ["bikeStorage", "mobility", "livingWorkTraffic"],
+    directions: ["bikeStorage", "livingWorkTraffic"],
     typeCompatibility: ["product", "technicalDesign"],
     constraintModes: ["scaleModelSafe", "mechanical", "maxTenEuro"],
   },
@@ -46,28 +46,28 @@ export const productForms: CategoryItem[] = [
   {
     id: "pf-veiligheidsindicator",
     text: "veiligheidsindicator",
-    directions: ["healthcare", "energyWaterSafety", "mobility"],
+    directions: ["humanHealth", "energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["technicalDesign", "system"],
     constraintModes: ["mechanical", "withoutApp", "waterResistant"],
   },
   {
     id: "pf-watercoach",
     text: "waterbesparende douchecoach",
-    directions: ["sustainability", "housingAndSpace", "energyWaterSafety"],
+    directions: ["energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["product", "researchIdea"],
     constraintModes: ["withoutApp", "withoutPower", "waterResistant"],
   },
   {
     id: "pf-festivalmodule",
     text: "herbruikbare festivalmodule",
-    directions: ["sustainability", "sports", "designProductionTrade"],
+    directions: ["designProductionTrade", "digitalMediaEntertainment"],
     typeCompatibility: ["space", "system"],
     constraintModes: ["recycledMaterial", "foldable"],
   },
   {
     id: "pf-bewegingschallenge",
     text: "sensorloze bewegingschallenge",
-    directions: ["sports", "humanHealth", "schoolEnvironment"],
+    directions: ["humanHealth", "schoolEnvironment"],
     typeCompatibility: ["system", "researchIdea"],
     constraintModes: ["withoutApp", "withoutPower", "mechanical"],
   },
@@ -87,17 +87,17 @@ export const audiences: CategoryItem[] = [
   {
     id: "au-ouderen",
     text: "ouderen die zelfstandig wonen",
-    directions: ["healthcare", "housingAndSpace", "humanHealth"],
+    directions: ["humanHealth", "livingWorkTraffic"],
   },
   {
     id: "au-sporters",
     text: "sporters bij een vereniging",
-    directions: ["sports", "humanHealth"],
+    directions: ["humanHealth"],
   },
   {
     id: "au-forenzen",
     text: "forenzen op een druk station",
-    directions: ["mobility", "livingWorkTraffic"],
+    directions: ["livingWorkTraffic"],
   },
   {
     id: "au-makerspace",
@@ -107,12 +107,12 @@ export const audiences: CategoryItem[] = [
   {
     id: "au-gezinnen",
     text: "gezinnen thuis",
-    directions: ["housingAndSpace", "sustainability", "energyWaterSafety"],
+    directions: ["livingWorkTraffic", "energyWaterSafety", "foodNature"],
   },
   {
     id: "au-festival",
     text: "bezoekers van een festival",
-    directions: ["sports", "sustainability", "digitalMediaEntertainment"],
+    directions: ["digitalMediaEntertainment", "designProductionTrade"],
   },
   {
     id: "au-basisschool",
@@ -122,7 +122,7 @@ export const audiences: CategoryItem[] = [
   {
     id: "au-buurt",
     text: "buurtbewoners bij wateroverlast",
-    directions: ["sustainability", "energyWaterSafety", "housingAndSpace"],
+    directions: ["energyWaterSafety", "livingWorkTraffic"],
   },
 ];
 
@@ -135,37 +135,37 @@ export const problems: CategoryItem[] = [
   {
     id: "pr-restafval",
     text: "te veel restafval in de pauze",
-    directions: ["sustainability", "breakAndCafeteria", "foodNature"],
+    directions: ["breakAndCafeteria", "foodNature", "designProductionTrade"],
   },
   {
     id: "pr-drukte",
     text: "drukte en botsingen",
-    directions: ["mobility", "bikeStorage", "livingWorkTraffic"],
+    directions: ["bikeStorage", "livingWorkTraffic"],
   },
   {
     id: "pr-beweging",
     text: "te weinig beweging op een dag",
-    directions: ["sports", "healthcare", "humanHealth"],
+    directions: ["humanHealth"],
   },
   {
     id: "pr-verspilling",
     text: "water- en energieverspilling",
-    directions: ["sustainability", "energyWaterSafety", "housingAndSpace"],
+    directions: ["energyWaterSafety", "foodNature", "livingWorkTraffic"],
   },
   {
     id: "pr-routes",
     text: "onduidelijke looproutes",
-    directions: ["schoolEnvironment", "mobility", "livingWorkTraffic"],
+    directions: ["schoolEnvironment", "livingWorkTraffic"],
   },
   {
     id: "pr-voedsel",
     text: "voedselverspilling",
-    directions: ["sustainability", "foodNature", "schoolEnvironment"],
+    directions: ["foodNature", "schoolEnvironment", "designProductionTrade"],
   },
   {
     id: "pr-overprikkeling",
     text: "lawaai en overprikkeling",
-    directions: ["schoolEnvironment", "healthcare", "humanHealth"],
+    directions: ["schoolEnvironment", "humanHealth"],
   },
   {
     id: "pr-onderdelen",
@@ -175,7 +175,7 @@ export const problems: CategoryItem[] = [
   {
     id: "pr-zicht",
     text: "onveiligheid bij slecht zicht",
-    directions: ["mobility", "energyWaterSafety", "healthcare"],
+    directions: ["livingWorkTraffic", "energyWaterSafety", "humanHealth"],
   },
 ];
 
@@ -188,22 +188,22 @@ export const markets: CategoryItem[] = [
   {
     id: "ma-fietsenstalling",
     text: "de fietsenstalling",
-    directions: ["bikeStorage", "mobility", "schoolEnvironment"],
+    directions: ["bikeStorage", "livingWorkTraffic", "schoolEnvironment"],
   },
   {
     id: "ma-verzorgingshuis",
     text: "een verzorgingshuis",
-    directions: ["healthcare", "humanHealth"],
+    directions: ["humanHealth"],
   },
   {
     id: "ma-sportclub",
     text: "een sportclub",
-    directions: ["sports", "humanHealth"],
+    directions: ["humanHealth"],
   },
   {
     id: "ma-station",
     text: "een station",
-    directions: ["mobility", "livingWorkTraffic"],
+    directions: ["livingWorkTraffic"],
   },
   {
     id: "ma-makerspace",
@@ -213,22 +213,22 @@ export const markets: CategoryItem[] = [
   {
     id: "ma-badkamer",
     text: "een kleine badkamer",
-    directions: ["housingAndSpace", "sustainability", "energyWaterSafety"],
+    directions: ["livingWorkTraffic", "energyWaterSafety"],
   },
   {
     id: "ma-festival",
     text: "een festivalterrein",
-    directions: ["sports", "sustainability", "digitalMediaEntertainment"],
+    directions: ["digitalMediaEntertainment", "designProductionTrade"],
   },
   {
     id: "ma-schoolplein",
     text: "een schoolplein",
-    directions: ["schoolEnvironment", "sports", "livingWorkTraffic"],
+    directions: ["schoolEnvironment", "humanHealth", "livingWorkTraffic", "foodNature"],
   },
   {
     id: "ma-wateroverlast",
     text: "een buurt met wateroverlast",
-    directions: ["sustainability", "energyWaterSafety", "housingAndSpace"],
+    directions: ["energyWaterSafety", "livingWorkTraffic"],
   },
 ];
 
@@ -248,13 +248,13 @@ export const constraints: CategoryItem[] = [
   {
     id: "co-restmateriaal",
     text: "gemaakt wordt van restmateriaal",
-    directions: ["sustainability", "makerSpace", "designProductionTrade"],
+    directions: ["makerSpace", "designProductionTrade"],
     constraintModes: ["recycledMaterial"],
   },
   {
     id: "co-zonder-stroom",
     text: "zonder stroom werkt",
-    directions: ["sustainability", "digitalMediaEntertainment"],
+    directions: ["energyWaterSafety", "digitalMediaEntertainment"],
     constraintModes: ["withoutPower"],
   },
   {
@@ -266,13 +266,13 @@ export const constraints: CategoryItem[] = [
   {
     id: "co-inklapbaar",
     text: "inklapbaar en verplaatsbaar is",
-    directions: ["housingAndSpace", "schoolEnvironment"],
+    directions: ["livingWorkTraffic", "schoolEnvironment"],
     constraintModes: ["foldable"],
   },
   {
     id: "co-waterbestendig",
     text: "waterbestendig is",
-    directions: ["energyWaterSafety", "mobility", "sports", "housingAndSpace"],
+    directions: ["energyWaterSafety", "livingWorkTraffic", "humanHealth"],
     constraintModes: ["waterResistant"],
   },
   {
@@ -305,24 +305,24 @@ export const technologies: CategoryItem[] = [
   {
     id: "te-kleurcode",
     text: "kleurcodering",
-    directions: ["schoolEnvironment", "mobility", "digitalMediaEntertainment"],
+    directions: ["schoolEnvironment", "livingWorkTraffic", "digitalMediaEntertainment"],
     constraintModes: ["withoutApp", "fastPrototype"],
   },
   {
     id: "te-hergebruik",
     text: "hergebruikmateriaal",
-    directions: ["sustainability", "designProductionTrade"],
+    directions: ["designProductionTrade"],
     constraintModes: ["recycledMaterial"],
   },
   {
     id: "te-sensor",
     text: "een sensor of meetprincipe",
-    directions: ["highTechScience", "healthcare"],
+    directions: ["highTechScience", "humanHealth"],
   },
   {
     id: "te-modulair",
     text: "modulaire onderdelen",
-    directions: ["makerSpace", "housingAndSpace", "designProductionTrade"],
+    directions: ["makerSpace", "livingWorkTraffic", "designProductionTrade"],
     constraintModes: ["foldable"],
   },
   {
@@ -334,7 +334,7 @@ export const technologies: CategoryItem[] = [
   {
     id: "te-zonne",
     text: "zonne-energie",
-    directions: ["sustainability", "energyWaterSafety"],
+    directions: ["energyWaterSafety"],
   },
   {
     id: "te-schaal",
@@ -354,32 +354,32 @@ export const trends: CategoryItem[] = [
   {
     id: "tr-circulair",
     text: "circulair materiaalgebruik",
-    directions: ["sustainability", "designProductionTrade"],
+    directions: ["designProductionTrade"],
     constraintModes: ["recycledMaterial"],
   },
   {
     id: "tr-gezond",
     text: "gezond gedrag",
-    directions: ["healthcare", "sports", "humanHealth"],
+    directions: ["humanHealth"],
   },
   {
     id: "tr-deel",
     text: "deelgebruik",
-    directions: ["sustainability", "mobility"],
+    directions: ["designProductionTrade", "livingWorkTraffic"],
   },
   {
     id: "tr-klimaat",
     text: "klimaatadaptatie",
-    directions: ["sustainability", "energyWaterSafety", "housingAndSpace"],
+    directions: ["energyWaterSafety", "livingWorkTraffic"],
   },
   {
     id: "tr-gamification",
     text: "gamification",
-    directions: ["schoolEnvironment", "sports", "digitalMediaEntertainment"],
+    directions: ["schoolEnvironment", "humanHealth", "digitalMediaEntertainment"],
   },
   {
     id: "tr-personalisatie",
     text: "personalisatie",
-    directions: ["schoolEnvironment", "healthcare", "humanHealth"],
+    directions: ["schoolEnvironment", "humanHealth"],
   },
 ];
