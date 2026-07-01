@@ -151,7 +151,11 @@ export const productForms: CategoryItem[] = [
   {
     id: "pf-voedseldeel-systeem",
     text: "voedseldeel-systeem voor overgebleven eten",
-    directions: ["foodNature", "breakAndCafeteria", "digitalMediaEntertainment"],
+    directions: [
+      "foodNature",
+      "breakAndCafeteria",
+      "digitalMediaEntertainment",
+    ],
     typeCompatibility: ["system"],
     constraintModes: ["withoutApp", "fastPrototype"],
   },
@@ -207,7 +211,11 @@ export const productForms: CategoryItem[] = [
   {
     id: "pf-flexibele-projectruimte",
     text: "flexibele projectruimte",
-    directions: ["schoolEnvironment", "classroomLayout", "designProductionTrade"],
+    directions: [
+      "schoolEnvironment",
+      "classroomLayout",
+      "designProductionTrade",
+    ],
     typeCompatibility: ["space"],
     constraintModes: ["foldable", "fastPrototype"],
   },
