@@ -1,15 +1,15 @@
-import { Direction, CategoryItem, ConstraintMode, IdeaSegments } from "@/types/generator";
+import { AssignmentType, Direction, CategoryItem, ConstraintMode, IdeaSegments } from "@/types/generator";
 
 const hasTag = (item: CategoryItem, tag: string) => item.tags?.includes(tag) ?? false;
 
 export const itemMatchesFilters = (
   item: CategoryItem,
   direction?: Direction,
-  type?: string,
+  type?: AssignmentType,
   constraintMode?: ConstraintMode,
 ) => {
   const directionMatch = !direction || item.directions.includes(direction);
-  const typeMatch = !type || !item.typeCompatibility || item.typeCompatibility.includes(type as never);
+  const typeMatch = !type || !item.typeCompatibility || item.typeCompatibility.includes(type);
   const constraintMatch =
     !constraintMode ||
     constraintMode === "random" ||
@@ -45,12 +45,12 @@ export const isCompatibleCombination = (
     constraintMode === "waterResistant" &&
     segments.market &&
     ![
-      "een buurt met wateroverlast",
-      "een station",
-      "een schoolplein",
-      "een kleine badkamer",
-      "een sportclub",
-    ].includes(segments.market.text)
+      "ma-wateroverlast",
+      "ma-station",
+      "ma-schoolplein",
+      "ma-badkamer",
+      "ma-sportclub",
+    ].includes(segments.market.id)
   ) {
     return false;
   }

@@ -23,6 +23,8 @@ export default function ChallengeSegment({
           }`}
           onClick={onToggleLock}
           title="Vastzetten"
+          aria-label={locked ? "Segment ontgrendelen" : "Segment vergrendelen"}
+          aria-pressed={locked}
         >
           {locked ? "🔒" : "🔓"}
         </button>
@@ -30,6 +32,7 @@ export default function ChallengeSegment({
           className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-white/14 text-xs text-white/80"
           onClick={onRefresh}
           title="Alleen dit segment verversen"
+          aria-label="Alleen dit segment verversen"
         >
           ↻
         </button>

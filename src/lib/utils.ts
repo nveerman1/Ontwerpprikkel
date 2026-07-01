@@ -13,3 +13,11 @@ export const uniqueBy = <T,>(items: T[], keyFn: (item: T) => string): T[] => {
 
 export const cn = (...classes: Array<string | false | null | undefined>) =>
   classes.filter(Boolean).join(" ");
+
+export const createId = () => {
+  if (typeof crypto !== "undefined" && crypto?.randomUUID) {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+};

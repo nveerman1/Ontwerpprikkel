@@ -27,7 +27,11 @@ export default function SavedIdeasDrawer({
     >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-black tracking-tight">Opgeslagen ideeën</h2>
-        <button className="h-9 w-9 rounded-full bg-[#222] text-lg text-white" onClick={onClose}>
+        <button
+          className="h-9 w-9 rounded-full bg-[#222] text-lg text-white"
+          onClick={onClose}
+          aria-label="Sluit opgeslagen ideeën"
+        >
           ×
         </button>
       </div>
@@ -39,13 +43,19 @@ export default function SavedIdeasDrawer({
         </p>
       ) : (
         <ul className="space-y-3">
-          {savedIdeas.map((idea, index) => {
+          {savedIdeas.map((idea) => {
             const workform =
               workforms.find((item) => item.id === idea.selectedWorkformId) ?? null;
 
             return (
               <li key={idea.id} className="rounded-2xl border border-[#eed8ca] bg-white p-3.5">
-                <strong className="mb-1 block">Ontwerpuitdaging {index + 1}</strong>
+                <strong className="mb-1 block">
+                  Opgeslagen op{" "}
+                  {new Date(idea.savedAt).toLocaleString("nl-NL", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}
+                </strong>
                 <p className="mb-2 text-sm leading-relaxed text-[#555]">{idea.sentence}</p>
                 {workform && (
                   <p className="mb-2 text-xs font-bold text-[#9b5c48]">

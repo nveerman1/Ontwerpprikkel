@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ChallengeArea from "@/components/ChallengeArea";
 import FilterBar from "@/components/FilterBar";
 import Header from "@/components/Header";
@@ -41,6 +41,9 @@ const defaultInput: GeneratorInput = {
   constraintMode: "fastPrototype",
 };
 
+const TOAST_DURATION_MS = 2200;
+const MAX_SAVED_IDEAS = 30;
+
 const buildCopyText = (idea: Idea, selectedWorkformId?: string) => {
   const selectedWorkform = selectedWorkformId
     ? workforms.find((item) => item.id === selectedWorkformId)
@@ -68,6 +71,7 @@ export default function Home() {
   const [savedDrawerOpen, setSavedDrawerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [fallbackCopyText, setFallbackCopyText] = useState("");
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const directionDropdownOptions = useMemo(
     () =>
@@ -91,10 +95,13 @@ export default function Home() {
 
   const showToast = (message: string) => {
     setToastMessage(message);
-    window.clearTimeout((window as Window & { __opToast?: number }).__opToast);
-    (window as Window & { __opToast?: number }).__opToast = window.setTimeout(
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = null;
+    }
+    toastTimeoutRef.current = setTimeout(
       () => setToastMessage(""),
-      2200,
+      TOAST_DURATION_MS,
     );
   };
 
@@ -168,7 +175,7 @@ export default function Home() {
         savedAt: new Date().toISOString(),
       },
       ...savedIdeas,
-    ].slice(0, 30);
+    ].slice(0, MAX_SAVED_IDEAS);
 
     const persisted = persistSavedIdeas(nextSavedIdeas);
     if (!persisted) {
@@ -241,6 +248,7 @@ export default function Home() {
             <p className="mb-2 text-sm font-extrabold">Handmatig kopiëren:</p>
             <textarea
               readOnly
+              aria-label="Tekst om handmatig te kopiëren"
               className="h-32 w-full rounded-lg bg-white/90 p-2 text-sm text-black"
               value={fallbackCopyText}
             />

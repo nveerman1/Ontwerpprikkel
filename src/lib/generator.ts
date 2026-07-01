@@ -14,7 +14,7 @@ import {
 } from "@/types/generator";
 import { formatIdeaSentence, ideaSignature } from "@/lib/formatIdea";
 import { isCompatibleCombination, itemMatchesFilters } from "@/lib/rules";
-import { randomItem } from "@/lib/utils";
+import { createId, randomItem } from "@/lib/utils";
 
 const segmentMap = {
   productForm: productForms,
@@ -23,6 +23,9 @@ const segmentMap = {
   market: markets,
   constraint: constraints,
 };
+
+const MAX_GENERATION_ATTEMPTS = 24;
+const DUPLICATE_RETRY_LIMIT = 20;
 
 const pickWithFallback = (
   key: IdeaSegmentKey,
@@ -53,7 +56,7 @@ export const generateIdea = (
 ): Idea => {
   let attempts = 0;
 
-  while (attempts < 24) {
+  while (attempts < MAX_GENERATION_ATTEMPTS) {
     const segments: IdeaSegments = {
       productForm: pickWithFallback(
         "productForm",
@@ -88,13 +91,13 @@ export const generateIdea = (
     }
 
     const signature = ideaSignature(segments);
-    if (recentSignatures.includes(signature) && attempts < 20) {
+    if (recentSignatures.includes(signature) && attempts < DUPLICATE_RETRY_LIMIT) {
       attempts += 1;
       continue;
     }
 
     return {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      id: createId(),
       createdAt: new Date().toISOString(),
       segments,
       sentence: formatIdeaSentence(segments),
@@ -119,7 +122,7 @@ export const generateIdea = (
   };
 
   return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+    id: createId(),
     createdAt: new Date().toISOString(),
     segments: fallbackSegments,
     sentence: formatIdeaSentence(fallbackSegments),
