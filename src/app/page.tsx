@@ -55,23 +55,29 @@ const buildCopyText = (idea: Idea, selectedWorkformId?: string) => {
 };
 
 export default function Home() {
-  const initialIdea = generateIdea(defaultInput, {}, null, []);
   const [input, setInput] = useState<GeneratorInput>(defaultInput);
-  const [currentIdea, setCurrentIdea] = useState<Idea | null>(initialIdea);
+  const [currentIdea, setCurrentIdea] = useState<Idea | null>(null);
   const [lockedSegments, setLockedSegments] =
     useState<Partial<Record<IdeaSegmentKey, boolean>>>({});
-  const [recentSignatures, setRecentSignatures] = useState<string[]>([
-    initialIdea.signature,
-  ]);
+  const [recentSignatures, setRecentSignatures] = useState<string[]>([]);
   const [selectedWorkformId, setSelectedWorkformId] =
     useState(defaultWorkformId);
-  const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>(() =>
-    loadSavedIdeas(),
-  );
+  const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>([]);
   const [savedDrawerOpen, setSavedDrawerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [fallbackCopyText, setFallbackCopyText] = useState("");
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Client-only initialisation: generateIdea uses Math.random() and
+  // loadSavedIdeas reads localStorage, both of which differ between
+  // server and client. Deferring to useEffect avoids the hydration
+  // mismatch. React 18+ batches these setState calls automatically.
+  useEffect(() => {
+    const initialIdea = generateIdea(defaultInput, {}, null, []);
+    setCurrentIdea(initialIdea); // eslint-disable-line react-hooks/set-state-in-effect -- one-time client init for SSR-unsafe values
+    setRecentSignatures([initialIdea.signature]);
+    setSavedIdeas(loadSavedIdeas());
+  }, []);
 
   useEffect(() => {
     return () => {

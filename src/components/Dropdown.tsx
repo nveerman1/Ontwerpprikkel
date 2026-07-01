@@ -42,14 +42,14 @@ export default function Dropdown({
           group ? (
             <optgroup key={group} label={group}>
               {groupOptions.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value} className="text-black bg-white">
                   {option.label}
                 </option>
               ))}
             </optgroup>
           ) : (
             groupOptions.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} value={option.value} className="text-black bg-white">
                 {option.label}
               </option>
             ))
