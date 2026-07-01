@@ -6,8 +6,12 @@ OntwerpPrikkel is een Next.js MVP die Nederlandstalige ontwerpuitdagingen genere
 
 ```bash
 npm run dev
+npm run format
 npm run lint
+npm run typecheck
+npm test
 npm run build
+npm run e2e
 ```
 
 ## MVP-functionaliteit
@@ -18,3 +22,27 @@ npm run build
 - Werkvormpicker met categorieën en compacte werkvormkaart.
 - Opslaan, hergebruiken, kopiëren en verwijderen van ideeën via localStorage (`ontwerpprikkel.savedIdeas.v4`).
 - Clipboard-fallback en toastmeldingen.
+
+## Deployment
+
+OntwerpPrikkel wordt gedeployed via Vercel Hobby.
+
+- Pull requests krijgen een Vercel Preview Deployment.
+- Merges naar `main` deployen naar productie.
+- GitHub Actions draaien format, lint, typecheck, unit tests en build.
+- E2E tests draaien in GitHub Actions op pull requests en `workflow_dispatch`.
+- Het domein blijft bij TransIP; DNS verwijst naar Vercel.
+
+## Branch protection advies (`main`)
+
+- Pull request verplicht vóór merge.
+- Required status checks:
+  - `Quality checks`
+  - `E2E tests` (alleen required maken als stabiel/snel)
+  - `Dependency review`
+  - `Analyze JavaScript/TypeScript`
+- Direct pushen naar `main` blokkeren.
+- Squash merge gebruiken.
+- Branch verwijderen na merge.
+- Conversation resolution verplicht (indien beschikbaar).
+- Require branches to be up to date before merging (indien werkbaar).
