@@ -32,6 +32,33 @@ const putInCache = async (request, response) => {
   await cache.put(request, response.clone());
 };
 
+const getAppShellAssetUrls = async (cache) => {
+  const appShell = await cache.match("/");
+  if (!appShell) return [];
+
+  const html = await appShell.clone().text();
+  const matches = html.matchAll(/(?:href|src)="([^"]+)"/g);
+  const assetUrls = [];
+
+  for (const [, value] of matches) {
+    const url = new URL(value, self.location.origin);
+    if (!isSameOrigin(url) || !isStaticAsset(url)) continue;
+    assetUrls.push(`${url.pathname}${url.search}`);
+  }
+
+  return [...new Set(assetUrls)];
+};
+
+const precacheAppShellAssets = async (cache) => {
+  try {
+    const assetUrls = await getAppShellAssetUrls(cache);
+    await Promise.allSettled(assetUrls.map((url) => cache.add(url)));
+  } catch {
+    // App-shell discovery is a best-effort boost for first-visit offline use.
+    // Runtime caching still handles these assets once the service worker controls the page.
+  }
+};
+
 const networkFirst = async (request, fallbackRequest = request) => {
   try {
     const response = await fetch(request);
@@ -64,6 +91,7 @@ self.addEventListener("install", (event) => {
     (async () => {
       const cache = await caches.open(CACHE_VERSION);
       await cache.addAll(PRECACHE_URLS);
+      await precacheAppShellAssets(cache);
       await self.skipWaiting();
     })(),
   );
