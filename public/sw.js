@@ -1,6 +1,7 @@
 /* global self, caches, fetch, URL */
 
-const CACHE_VERSION = "ontwerpprikkel-app-v1";
+const CACHE_PREFIX = "ontwerpprikkel-app-";
+const CACHE_VERSION = `${CACHE_PREFIX}v1`;
 const PRECACHE_URLS = [
   "/",
   "/manifest.webmanifest",
@@ -102,7 +103,10 @@ self.addEventListener("activate", (event) => {
       const cacheNames = await caches.keys();
       await Promise.all(
         cacheNames
-          .filter((cacheName) => cacheName !== CACHE_VERSION)
+          .filter(
+            (cacheName) =>
+              cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_VERSION,
+          )
           .map((cacheName) => caches.delete(cacheName)),
       );
       await self.clients.claim();
@@ -113,8 +117,8 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
-  // Only cache safe same-origin GET requests. Future API, AI, POST,
-  // analytics or third-party requests should always stay outside this cache.
+  // Only handle safe same-origin GET requests that are needed for offline use.
+  // Future API, AI, analytics, POST or third-party requests stay outside this cache.
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
@@ -127,8 +131,5 @@ self.addEventListener("fetch", (event) => {
 
   if (isStaticAsset(url)) {
     event.respondWith(staleWhileRevalidate(event));
-    return;
   }
-
-  event.respondWith(networkFirst(request));
 });
