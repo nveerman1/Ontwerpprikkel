@@ -1,5 +1,5 @@
 /* eslint-env serviceworker */
-/* global self, caches, fetch */
+/* global self, caches, fetch, URL */
 
 const CACHE_VERSION = "ontwerpprikkel-app-v1";
 const PRECACHE_URLS = [
