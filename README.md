@@ -20,7 +20,7 @@ npm run e2e
 - Grote ontwerpzin met lock- en refresh-controls per segment.
 - Werkvormrail rechts op desktop, onder de zin op kleinere schermen.
 - Werkvormpicker met categorieën en compacte werkvormkaart.
-- Opslaan, hergebruiken, kopiëren en verwijderen van ideeën via localStorage (`ontwerpprikkel.savedIdeas.v4`).
+- Opslaan, hergebruiken, kopiëren en verwijderen van ideeën via localStorage (`ontwerpprikkel.savedIdeas.v5`).
 - Clipboard-fallback en toastmeldingen.
 
 ## Deployment
