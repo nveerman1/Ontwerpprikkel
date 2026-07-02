@@ -20,7 +20,7 @@ npm run e2e
 - Grote ontwerpzin met lock- en refresh-controls per segment.
 - Werkvormrail rechts op desktop, onder de zin op kleinere schermen.
 - Werkvormpicker met categorieën en compacte werkvormkaart.
-- Opslaan, hergebruiken, kopiëren en verwijderen van ideeën via localStorage (`ontwerpprikkel.savedIdeas.v4`).
+- Opslaan, hergebruiken, kopiëren en verwijderen van ideeën via localStorage (`ontwerpprikkel.savedIdeas.v5`).
 - Clipboard-fallback en toastmeldingen.
 
 ## Deployment
@@ -33,25 +33,37 @@ OntwerpPrikkel wordt gedeployed via Vercel Hobby.
 - E2E tests draaien in GitHub Actions op pull requests en `workflow_dispatch`.
 - Het domein blijft bij TransIP; DNS verwijst naar Vercel.
 
-## PWA-installatie
+## PWA-installatie en offline gebruik
 
 OntwerpPrikkel is in fase 1 PWA-ready gemaakt met een App Router manifest,
 app-iconen en installable metadata. De app kan daardoor door Chrome en Edge als
 installeerbare app worden herkend wanneer hij via HTTPS of `localhost` draait.
 
-Offline ondersteuning is bewust nog niet toegevoegd in deze fase. Er is dus nog
-geen service worker, offline caching of push-notificatiefunctionaliteit.
+Fase 2 voegt offline ondersteuning toe met een eenvoudige service worker in
+`public/sw.js`. Na minimaal één online bezoek cachet de app de startpagina,
+het manifest, de PWA-iconen en benodigde Next/static assets. Daardoor kan
+OntwerpPrikkel offline opnieuw openen en blijft de generator client-side
+bruikbaar. Opgeslagen ideeën blijven via de bestaande localStorage-opslag
+werken.
+
+Er zijn bewust geen push notifications, background sync of externe PWA-library
+toegevoegd.
 
 Handmatig controleren:
 
 ```bash
+npm run lint
+npm run typecheck
 npm run build
 npm run start
 ```
 
-- Open de productiebuild in Chrome of Edge.
+- Open de productiebuild in Chrome of Edge terwijl je online bent.
 - Controleer DevTools -> Application -> Manifest.
-- Draai een Lighthouse/installability check.
+- Controleer DevTools -> Application -> Service Workers: `/sw.js` is actief.
+- Controleer DevTools -> Application -> Cache Storage: `ontwerpprikkel-app-v1` is gevuld.
+- Zet DevTools -> Network op Offline en herlaad de pagina.
+- Controleer dat OntwerpPrikkel opent, Nieuwe uitdaging werkt en opgeslagen ideeën beschikbaar blijven.
 - Installeer de app via de browser wanneer de install prompt beschikbaar is.
 
 ## Branch protection advies (`main`)

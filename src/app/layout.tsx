@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import PWARegister from "@/components/PWARegister";
 
 export const metadata: Metadata = {
   title: "OntwerpPrikkel",
@@ -26,7 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className="h-full antialiased">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+        <PWARegister />
+      </body>
     </html>
   );
 }
