@@ -5,6 +5,18 @@ export const metadata: Metadata = {
   title: "OntwerpPrikkel",
   description:
     "Nederlandstalige generator voor verrassende en bruikbare ontwerpuitdagingen.",
+  applicationName: "OntwerpPrikkel",
+  appleWebApp: {
+    capable: true,
+    title: "OntwerpPrikkel",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    apple: "/icons/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

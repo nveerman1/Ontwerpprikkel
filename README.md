@@ -33,6 +33,27 @@ OntwerpPrikkel wordt gedeployed via Vercel Hobby.
 - E2E tests draaien in GitHub Actions op pull requests en `workflow_dispatch`.
 - Het domein blijft bij TransIP; DNS verwijst naar Vercel.
 
+## PWA-installatie
+
+OntwerpPrikkel is in fase 1 PWA-ready gemaakt met een App Router manifest,
+app-iconen en installable metadata. De app kan daardoor door Chrome en Edge als
+installeerbare app worden herkend wanneer hij via HTTPS of `localhost` draait.
+
+Offline ondersteuning is bewust nog niet toegevoegd in deze fase. Er is dus nog
+geen service worker, offline caching of push-notificatiefunctionaliteit.
+
+Handmatig controleren:
+
+```bash
+npm run build
+npm run start
+```
+
+- Open de productiebuild in Chrome of Edge.
+- Controleer DevTools -> Application -> Manifest.
+- Draai een Lighthouse/installability check.
+- Installeer de app via de browser wanneer de install prompt beschikbaar is.
+
 ## Branch protection advies (`main`)
 
 - Pull request verplicht vóór merge.
