@@ -1,4 +1,5 @@
 import { CategoryItem } from "@/types/generator";
+import { protobotProductForms } from "@/data/protobotProductForms";
 
 export const productForms: CategoryItem[] = [
   {
@@ -359,6 +360,7 @@ export const productForms: CategoryItem[] = [
     typeCompatibility: ["researchIdea"],
     constraintModes: ["withoutApp", "fastPrototype"],
   },
+  ...protobotProductForms,
 ];
 
 export const audiences: CategoryItem[] = [
