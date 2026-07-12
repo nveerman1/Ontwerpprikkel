@@ -1386,13 +1386,7 @@ const sourceItems: ProductFormSeed[] = [
     product,
     ["recycledMaterial", "withoutPower"],
   ],
-  [
-    "film",
-    "film",
-    ["digitalMediaEntertainment"],
-    product,
-    ["fastPrototype"],
-  ],
+  ["film", "film", ["digitalMediaEntertainment"], product, ["fastPrototype"]],
   [
     "kapsel",
     "kapsel",
