@@ -1,3 +1,7 @@
+import type { SemanticTag } from "@/data/semanticTags";
+
+export type SurpriseLevel = "logical" | "balanced" | "wild";
+
 export type AssignmentType =
   "product" | "system" | "space" | "technicalDesign" | "researchIdea";
 
@@ -36,9 +40,14 @@ export interface CategoryItem {
   typeCompatibility?: AssignmentType[];
   constraintModes?: ConstraintMode[];
   tags?: string[];
+  semanticTags?: SemanticTag[];
+  contextPhrase?: string;
 }
 
 export interface GeneratorInput {
+  contextEnabled?: boolean;
+  constraintEnabled?: boolean;
+  surpriseLevel?: SurpriseLevel;
   type?: AssignmentType;
   direction?: Direction;
   constraintMode?: ConstraintMode;
@@ -48,8 +57,8 @@ export interface IdeaSegments {
   productForm: CategoryItem;
   audience: CategoryItem;
   problem: CategoryItem;
-  market: CategoryItem;
-  constraint: CategoryItem;
+  market?: CategoryItem;
+  constraint?: CategoryItem;
 }
 
 export type IdeaSegmentKey = keyof IdeaSegments;
@@ -62,7 +71,7 @@ export interface Idea {
   input: GeneratorInput;
   signature: string;
   selectedWorkformId?: string;
-  usedFallback?: boolean;
+  improvements?: string[];
 }
 
 export type WorkformCategory =

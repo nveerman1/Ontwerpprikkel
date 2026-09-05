@@ -10,6 +10,7 @@ interface DropdownProps {
   options: CustomDropdownOption[];
   onChange: (value: string) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function Dropdown({
@@ -18,9 +19,11 @@ export default function Dropdown({
   options,
   onChange,
   className,
+  disabled = false,
 }: DropdownProps) {
   return (
     <CustomDropdown
+      disabled={disabled}
       label={label}
       value={value}
       options={options}

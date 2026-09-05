@@ -130,3 +130,18 @@ describe("isCompatibleCombination", () => {
     expect(isCompatibleCombination(baseSegments, "scaleModelSafe")).toBe(true);
   });
 });
+
+it("does not reject sensorless movement or shopping as electrical apps", () => {
+  expect(
+    isCompatibleCombination(
+      { productForm: makeItem({ text: "sensorloze bewegingschallenge" }) },
+      "withoutPower",
+    ),
+  ).toBe(true);
+  expect(
+    isCompatibleCombination(
+      { productForm: makeItem({ text: "boodschappenhulp" }) },
+      "withoutApp",
+    ),
+  ).toBe(true);
+});

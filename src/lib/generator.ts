@@ -6,7 +6,7 @@ import {
   productForms,
 } from "@/data/generatorData";
 import {
-  ConstraintMode,
+  CategoryItem,
   GeneratorInput,
   Idea,
   IdeaSegmentKey,
@@ -14,6 +14,7 @@ import {
 } from "@/types/generator";
 import { formatIdeaSentence, ideaSignature } from "@/lib/formatIdea";
 import { isCompatibleCombination, itemMatchesFilters } from "@/lib/rules";
+import { scoreCombination, selectCandidate } from "@/lib/coherence";
 import { createId, randomItem } from "@/lib/utils";
 
 const segmentMap = {
@@ -23,122 +24,103 @@ const segmentMap = {
   market: markets,
   constraint: constraints,
 };
-
-const MAX_GENERATION_ATTEMPTS = 24;
-const DUPLICATE_RETRY_LIMIT = 20;
-
-const pickWithFallback = (
-  key: IdeaSegmentKey,
-  input: GeneratorInput,
-  lockValue?: IdeaSegments[IdeaSegmentKey],
-  relaxDirection = false,
-  relaxConstraint = false,
-) => {
-  if (lockValue) return lockValue;
-
-  const pool = segmentMap[key].filter((item) => {
-    const direction = relaxDirection ? undefined : input.direction;
-    const constraintMode = relaxConstraint ? undefined : input.constraintMode;
-    return itemMatchesFilters(item, direction, input.type, constraintMode);
-  });
-
-  if (pool.length > 0) return randomItem(pool);
-  if (!relaxDirection)
-    return pickWithFallback(key, input, lockValue, true, relaxConstraint);
-  if (!relaxConstraint)
-    return pickWithFallback(key, input, lockValue, true, true);
-  return randomItem(segmentMap[key]);
-};
+const CANDIDATE_COUNT = 40;
+const MAX_ATTEMPTS = 400;
+type Locks = Partial<Record<IdeaSegmentKey, boolean>>;
 
 export const generateIdea = (
   input: GeneratorInput,
-  lockedSegments: Partial<Record<IdeaSegmentKey, boolean>>,
-  currentIdea: Idea | null,
-  recentSignatures: string[],
-): Idea => {
-  let attempts = 0;
-
-  while (attempts < MAX_GENERATION_ATTEMPTS) {
-    const segments: IdeaSegments = {
-      productForm: pickWithFallback(
-        "productForm",
-        input,
-        lockedSegments.productForm
-          ? currentIdea?.segments.productForm
-          : undefined,
-      ),
-      audience: pickWithFallback(
-        "audience",
-        input,
-        lockedSegments.audience ? currentIdea?.segments.audience : undefined,
-      ),
-      problem: pickWithFallback(
-        "problem",
-        input,
-        lockedSegments.problem ? currentIdea?.segments.problem : undefined,
-      ),
-      market: pickWithFallback(
-        "market",
-        input,
-        lockedSegments.market ? currentIdea?.segments.market : undefined,
-      ),
-      constraint: pickWithFallback(
-        "constraint",
-        input,
-        lockedSegments.constraint
-          ? currentIdea?.segments.constraint
-          : undefined,
-      ),
-    };
-
-    if (!isCompatibleCombination(segments, input.constraintMode)) {
-      attempts += 1;
-      continue;
-    }
-
-    const signature = ideaSignature(segments);
-    if (
-      recentSignatures.includes(signature) &&
-      attempts < DUPLICATE_RETRY_LIMIT
-    ) {
-      attempts += 1;
-      continue;
-    }
-
-    return {
-      id: createId(),
-      createdAt: new Date().toISOString(),
-      segments,
-      sentence: formatIdeaSentence(segments),
-      input,
-      signature,
-    };
-  }
-
-  const fallbackSegments: IdeaSegments = {
-    productForm: randomItem(productForms),
-    audience: randomItem(audiences),
-    problem: randomItem(problems),
-    market: randomItem(markets),
-    constraint: randomItem(
-      input.constraintMode && input.constraintMode !== "random"
-        ? constraints.filter((item) =>
-            item.constraintModes?.includes(
-              input.constraintMode as ConstraintMode,
-            ),
+  locks: Locks,
+  current: Idea | null,
+  recent: string[],
+  refreshKey?: IdeaSegmentKey,
+): Idea | null => {
+  const enabled = (key: IdeaSegmentKey) =>
+    (key !== "market" || input.contextEnabled !== false) &&
+    (key !== "constraint" || input.constraintEnabled !== false);
+  const pools = Object.fromEntries(
+    Object.entries(segmentMap).map(([key, items]) => {
+      const k = key as IdeaSegmentKey;
+      const locked = locks[k] ? current?.segments[k] : undefined;
+      const pool = enabled(k)
+        ? (locked ? [locked] : items).filter(
+            (item) =>
+              itemMatchesFilters(
+                item,
+                input.direction,
+                input.type,
+                input.constraintEnabled === false
+                  ? undefined
+                  : input.constraintMode,
+              ) &&
+              (k !== "constraint" ||
+                !input.constraintMode ||
+                input.constraintMode === "random" ||
+                item.constraintModes?.includes(input.constraintMode)) &&
+              (k !== refreshKey || item.id !== current?.segments[k]?.id),
           )
-        : constraints,
-    ),
-  };
-
+        : [];
+      return [k, pool];
+    }),
+  ) as Record<IdeaSegmentKey, CategoryItem[]>;
+  if (
+    (Object.keys(pools) as IdeaSegmentKey[]).some(
+      (k) => enabled(k) && !pools[k].length,
+    )
+  )
+    return null;
+  const candidates: {
+    segments: IdeaSegments;
+    score: number;
+    signature: string;
+  }[] = [];
+  const seen = new Set<string>();
+  for (
+    let attempt = 0;
+    attempt < MAX_ATTEMPTS && candidates.length < CANDIDATE_COUNT;
+    attempt++
+  ) {
+    const productForm = randomItem(pools.productForm);
+    const segments: IdeaSegments = {
+      productForm,
+      audience: randomItem(pools.audience),
+      problem: randomItem(pools.problem),
+    };
+    if (enabled("market")) segments.market = randomItem(pools.market);
+    if (enabled("constraint")) {
+      const compatible = pools.constraint.filter((constraint) => {
+        if (
+          productForm.constraintModes?.length &&
+          !constraint.constraintModes?.some((mode) =>
+            productForm.constraintModes!.includes(mode),
+          )
+        )
+          return false;
+        return constraint.constraintModes?.every((mode) =>
+          isCompatibleCombination({ ...segments, constraint }, mode),
+        );
+      });
+      if (!compatible.length) continue;
+      segments.constraint = randomItem(compatible);
+    }
+    const signature = ideaSignature(segments);
+    if (seen.has(signature)) continue;
+    seen.add(signature);
+    candidates.push({ segments, signature, score: scoreCombination(segments) });
+  }
+  const fresh = candidates.filter((c) => !recent.includes(c.signature));
+  const chosen = selectCandidate(
+    fresh.length ? fresh : candidates,
+    input.surpriseLevel ?? "balanced",
+  );
+  if (!chosen) return null;
   return {
     id: createId(),
     createdAt: new Date().toISOString(),
-    segments: fallbackSegments,
-    sentence: formatIdeaSentence(fallbackSegments),
+    segments: chosen.segments,
+    sentence: formatIdeaSentence(chosen.segments),
     input,
-    signature: ideaSignature(fallbackSegments),
-    usedFallback: true,
+    signature: chosen.signature,
   };
 };
 
@@ -146,14 +128,24 @@ export const refreshIdeaSegment = (
   key: IdeaSegmentKey,
   input: GeneratorInput,
   idea: Idea,
-): Idea => {
-  const nextSegment = pickWithFallback(key, input);
-  const segments = { ...idea.segments, [key]: nextSegment };
-
-  return {
-    ...idea,
-    segments,
-    sentence: formatIdeaSentence(segments),
-    signature: ideaSignature(segments),
-  };
+  locks: Locks = {},
+): Idea | null => {
+  if (
+    locks[key] ||
+    (key === "market" && input.contextEnabled === false) ||
+    (key === "constraint" && input.constraintEnabled === false)
+  )
+    return idea;
+  const fixed = Object.fromEntries(
+    Object.keys(segmentMap).map((k) => [k, k !== key]),
+  ) as Locks;
+  const next = generateIdea(input, fixed, idea, [], key);
+  return next
+    ? {
+        ...next,
+        id: idea.id,
+        createdAt: idea.createdAt,
+        selectedWorkformId: idea.selectedWorkformId,
+      }
+    : null;
 };

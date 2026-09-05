@@ -21,4 +21,5 @@ const endings: Record<ImprovementAction, string> = {
 export const improveIdea = (idea: Idea, action: ImprovementAction): Idea => ({
   ...idea,
   sentence: `${idea.sentence} ${endings[action]}`,
+  improvements: [...(idea.improvements ?? []), endings[action]],
 });

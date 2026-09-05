@@ -37,12 +37,13 @@ export const isCompatibleCombination = (
 
   if (
     constraintMode === "withoutPower" &&
-    (productForm.text.includes("sensor") || productForm.text.includes("app"))
+    (/\bsensor(?!lo)/i.test(productForm.text) ||
+      /\bapp\b/i.test(productForm.text))
   ) {
     return false;
   }
 
-  if (constraintMode === "withoutApp" && productForm.text.includes("app")) {
+  if (constraintMode === "withoutApp" && /\bapp\b/i.test(productForm.text)) {
     return false;
   }
 

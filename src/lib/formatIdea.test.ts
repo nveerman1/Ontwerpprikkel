@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { formatIdeaSentence, ideaSignature } from "@/lib/formatIdea";
+import {
+  formatIdeaSentence,
+  ideaSignature,
+  formatIdeaText,
+} from "@/lib/formatIdea";
 import { IdeaSegments } from "@/types/generator";
 
 const makeSegments = (overrides?: Partial<IdeaSegments>): IdeaSegments => ({
@@ -36,7 +40,8 @@ describe("formatIdeaSentence", () => {
     expect(sentence).toContain("leerlingen");
     expect(sentence).toContain("organisatie");
     expect(sentence).toContain("school");
-    expect(sentence).toContain("herbruikbaar is");
+    expect(sentence).not.toContain("herbruikbaar is");
+    expect(sentence).toContain("om organisatie aan te pakken");
   });
 
   it("uses all segment text values in the sentence", () => {
@@ -75,3 +80,54 @@ describe("ideaSignature", () => {
     expect(ideaSignature(segments)).toBe("pf-1|au-1|pr-1|ma-1|co-1");
   });
 });
+
+it.each([
+  [true, true],
+  [false, true],
+  [true, false],
+  [false, false],
+])(
+  "formats optional context %s and constraint %s",
+  (contextEnabled, constraintEnabled) => {
+    const segments = makeSegments({
+      productForm: { id: "football", text: "voetbal", directions: [] },
+      problem: { id: "food", text: "voedselverspilling", directions: [] },
+      market: contextEnabled
+        ? {
+            id: "ma-schoolplein",
+            text: "een schoolplein",
+            contextPhrase: "op een schoolplein",
+            directions: [],
+          }
+        : undefined,
+      constraint: constraintEnabled
+        ? {
+            id: "prototype",
+            text: "binnen één lesuur te prototypen",
+            directions: [],
+          }
+        : undefined,
+    });
+    const sentence = formatIdeaSentence(segments);
+    expect(sentence).toBe(
+      `Ontwerp een voetbal voor leerlingen om voedselverspilling aan te pakken${contextEnabled ? " op een schoolplein" : ""}.`,
+    );
+    expect(sentence).not.toContain("in een schoolplein");
+    expect(sentence).not.toContain("helpt bij voedselverspilling");
+    const text = formatIdeaText({
+      id: "test",
+      createdAt: "",
+      input: {},
+      signature: ideaSignature(segments),
+      sentence,
+      segments,
+    });
+    expect(text).toBe(
+      sentence +
+        (constraintEnabled
+          ? "\n\nRandvoorwaarde: binnen één lesuur te prototypen."
+          : ""),
+    );
+    expect(ideaSignature(segments).split("|")).toHaveLength(5);
+  },
+);

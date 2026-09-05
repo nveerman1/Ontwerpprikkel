@@ -20,6 +20,7 @@ interface CustomDropdownProps {
   /** Optional icon/emoji shown before the label */
   icon?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function CustomDropdown({
@@ -30,6 +31,7 @@ export default function CustomDropdown({
   actionMode = false,
   icon,
   className,
+  disabled = false,
 }: CustomDropdownProps) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,15 +86,16 @@ export default function CustomDropdown({
   };
 
   return (
-    <div ref={containerRef} className={cn("relative", className)}>
+    <div ref={containerRef} className={cn("relative max-w-full", className)}>
       <button
+        disabled={disabled}
         type="button"
-        className="flex items-center gap-1.5 rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white transition-colors hover:bg-white/20"
+        className="flex items-center gap-1.5 rounded-[14px] border border-white/16 bg-white/13 px-3 py-2 text-sm font-[850] text-white transition-colors hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed"
         onClick={() => setOpen((prev) => !prev)}
         aria-haspopup="listbox"
-        aria-expanded={open}
+        aria-expanded={open && !disabled}
       >
-        <span className="whitespace-nowrap">
+        <span className="text-left whitespace-normal sm:whitespace-nowrap">
           {icon && <span className="mr-1">{icon}</span>}
           {displayLabel}
         </span>
@@ -101,11 +104,11 @@ export default function CustomDropdown({
         </span>
       </button>
 
-      {open && (
+      {open && !disabled && (
         <div
           ref={menuRef}
           role="listbox"
-          className="absolute left-0 top-[calc(100%+8px)] z-[100] max-h-[440px] min-w-[310px] overflow-y-auto rounded-[18px] border border-black/5 bg-[#fff8f1] p-2.5 text-[#25282d] shadow-[0_20px_70px_rgba(45,24,18,.22)] max-md:fixed max-md:left-4 max-md:right-4 max-md:min-w-0"
+          className="absolute left-0 top-[calc(100%+8px)] z-[100] max-h-[440px] min-w-[310px] overflow-y-auto rounded-[18px] border border-black/5 bg-[#fff8f1] p-2.5 text-[#25282d] shadow-[0_20px_70px_rgba(45,24,18,.22)] max-md:fixed max-md:top-4 max-md:max-h-[calc(100dvh-2rem)] max-md:left-4 max-md:right-4 max-md:min-w-0"
         >
           {groups.map(([group, groupOptions]) => (
             <div key={group || "__ungrouped"}>
@@ -119,6 +122,7 @@ export default function CustomDropdown({
                 return (
                   <button
                     key={option.value}
+                    disabled={disabled}
                     type="button"
                     role="option"
                     aria-selected={isSelected}

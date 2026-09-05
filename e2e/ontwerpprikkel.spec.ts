@@ -59,9 +59,7 @@ test("filters kunnen worden aangepast en generatie blijft werken", async ({
 
   await page.getByRole("button", { name: "↻ Nieuwe uitdaging" }).click();
   await expect(challengeHeading(page)).toContainText("Ontwerp een");
-  await expect(page.getByText("Geen passende combinatie gevonden")).toHaveCount(
-    0,
-  );
+  await expect(page.getByText("Geen goede combinatie gevonden")).toHaveCount(0);
 });
 
 test("segment lock blijft klikbaar en app blijft genereren", async ({
@@ -107,13 +105,10 @@ test("idee opslaan, opnieuw gebruiken en verwijderen", async ({ page }) => {
   await expect(challengeHeading(page)).toContainText("Ontwerp een");
 
   await page
-    .getByRole("button", { name: "Verwijder" })
-    .first()
-    .click({ force: true });
-
-  await page
     .getByRole("button", { name: "Opgeslagen ideeën", exact: true })
     .click();
+  await page.getByRole("button", { name: "Verwijder" }).first().click();
+
   await expect(
     page.getByText("Je hebt nog geen ideeën opgeslagen."),
   ).toBeVisible();
@@ -143,7 +138,10 @@ test("kopieer toont succes bij werkend clipboard", async ({
   const copiedText = await page.evaluate(
     () => (window as Window & { __copiedText?: string }).__copiedText,
   );
-  expect(copiedText).toBeTruthy();
+  expect(copiedText).toMatch(
+    /aan te pakken[\s\S]*\.\n\nRandvoorwaarde: [^\n]+\.\n\nWerkvorm: /,
+  );
+  expect(copiedText).toContain("\nDoel: ");
 });
 
 test("kopieer toont fallback bij clipboard-fout", async ({ page }) => {
@@ -216,4 +214,146 @@ test("mobiele basisweergave blijft bruikbaar zonder horizontale overflow", async
     () => document.documentElement.scrollWidth > window.innerWidth + 1,
   );
   expect(hasHorizontalOverflow).toBe(false);
+});
+
+test("nieuwe defaults, toggles en reset", async ({ page }) => {
+  await expect(page.getByRole("button", { name: /Richting:/ })).toContainText(
+    "Alle richtingen",
+  );
+  await expect(
+    page.getByRole("button", { name: /Randvoorwaarde:/ }),
+  ).toContainText("Alle randvoorwaarden");
+  await expect(page.getByRole("button", { name: /Verrassing:/ })).toContainText(
+    "Prikkelend",
+  );
+  await expect(
+    page.getByRole("checkbox", { name: "Context", exact: true }),
+  ).toBeChecked();
+  await expect(
+    page.getByRole("checkbox", { name: "Beperking", exact: true }),
+  ).toBeChecked();
+  await expect(challengeHeading(page).getByTitle("Vastzetten")).toHaveCount(4);
+  await expect(page.getByTestId("constraint")).toBeVisible();
+  await page.getByRole("checkbox", { name: "Context", exact: true }).uncheck();
+  await expect(challengeHeading(page).getByTitle("Vastzetten")).toHaveCount(3);
+  await expect(challengeHeading(page)).toContainText("aan te pakken.");
+  await page
+    .getByRole("checkbox", { name: "Beperking", exact: true })
+    .uncheck();
+  await expect(page.getByTestId("constraint")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: /Randvoorwaarde:/ }),
+  ).toBeDisabled();
+  await page.getByRole("button", { name: "↻ Nieuwe uitdaging" }).click();
+  await expect(challengeHeading(page).getByTitle("Vastzetten")).toHaveCount(3);
+  await page.getByRole("button", { name: /Verrassing:/ }).click();
+  await page.getByRole("option", { name: "Gek", exact: true }).click();
+  await page.getByRole("button", { name: "Reset filters" }).click();
+  await expect(page.getByRole("button", { name: /Verrassing:/ })).toContainText(
+    "Prikkelend",
+  );
+  await expect(page.getByRole("button", { name: /Richting:/ })).toContainText(
+    "Alle richtingen",
+  );
+  await expect(
+    page.getByRole("button", { name: /Randvoorwaarde:/ }),
+  ).toBeEnabled();
+  await expect(
+    page.getByRole("button", { name: /Randvoorwaarde:/ }),
+  ).toContainText("Alle randvoorwaarden");
+  await expect(
+    page.getByRole("checkbox", { name: "Context", exact: true }),
+  ).toBeChecked();
+  await expect(
+    page.getByRole("checkbox", { name: "Beperking", exact: true }),
+  ).toBeChecked();
+  await expect(challengeHeading(page).getByTitle("Vastzetten")).toHaveCount(4);
+  await expect(page.getByTestId("constraint")).toBeVisible();
+});
+
+test("onmogelijke filters geven een expliciete melding", async ({ page }) => {
+  await challengeHeading(page).getByTitle("Vastzetten").first().click();
+  const previous = await challengeHeading(page).innerText();
+  await page.getByRole("button", { name: /Richting:/ }).click();
+  await page.getByRole("option", { name: /Lokaal\/inrichting/ }).click();
+  await page.getByRole("button", { name: "↻ Nieuwe uitdaging" }).click();
+  await expect(
+    page.getByText(/Geen goede combinatie gevonden met deze filters/),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("alert").filter({ hasText: "Geen goede combinatie" }),
+  ).toContainText("De vorige uitdaging is behouden");
+  await page.getByRole("button", { name: "↻ Nieuwe uitdaging" }).click();
+  await expect(challengeHeading(page)).toHaveText(previous, {
+    useInnerText: true,
+  });
+  await expect(
+    challengeHeading(page).getByRole("button", {
+      name: "Segment ontgrendelen",
+    }),
+  ).toHaveCount(1);
+  await page.getByRole("button", { name: /Richting:/ }).click();
+  await expect(
+    page.getByRole("option", { name: /Lokaal\/inrichting/ }),
+  ).toHaveAttribute("aria-selected", "true");
+});
+
+test("optionele segmenten bewaren en opnieuw laden", async ({ page }) => {
+  await page.getByRole("checkbox", { name: "Context", exact: true }).uncheck();
+  await page
+    .getByRole("checkbox", { name: "Beperking", exact: true })
+    .uncheck();
+  await page.getByRole("button", { name: "★ Bewaar" }).click();
+  await page.getByRole("button", { name: "Reset filters" }).click();
+  await page
+    .getByRole("button", { name: "Opgeslagen ideeën", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Gebruik opnieuw" }).click();
+  await expect(
+    page.getByRole("checkbox", { name: "Context", exact: true }),
+  ).not.toBeChecked();
+  await expect(
+    page.getByRole("checkbox", { name: "Beperking", exact: true }),
+  ).not.toBeChecked();
+  await expect(page.getByTestId("constraint")).toHaveCount(0);
+  await expect(challengeHeading(page).getByTitle("Vastzetten")).toHaveCount(3);
+});
+
+test("maak beter verschijnt naast de ontwerpzin", async ({ page }) => {
+  await page.getByRole("button", { name: /Maak beter/ }).click();
+  await page
+    .getByRole("option", { name: "Maak duurzamer", exact: true })
+    .click();
+  await expect(
+    page.getByText(
+      "Gebruik herbruikbare materialen en ontwerp voor reparatie.",
+    ),
+  ).toBeVisible();
+});
+
+test("mobiele dropdown blijft bereikbaar en lange filterlabels passen", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const name of ["📋 Kopieer", "★ Bewaar", "Opgeslagen ideeën"]) {
+    const bounds = await page
+      .getByRole("button", { name, exact: true })
+      .boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+  }
+  await page.getByRole("button", { name: /Randvoorwaarde:/ }).click();
+  await page
+    .getByRole("option", {
+      name: "Veilig te testen met schaalmodel",
+      exact: true,
+    })
+    .click();
+  const filter = page.getByRole("button", { name: /Randvoorwaarde:/ });
+  await expect(filter).toContainText("Veilig te testen met schaalmodel");
+  const bounds = await filter.boundingBox();
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+  await page.getByRole("button", { name: /Kies werkvorm/ }).click();
+  await page.getByRole("option", { name: "SCAMPER", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 3 })).toHaveText("SCAMPER");
 });

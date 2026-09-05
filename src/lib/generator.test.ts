@@ -1,118 +1,243 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { generateIdea, refreshIdeaSegment } from "@/lib/generator";
-import { GeneratorInput, Idea, IdeaSegmentKey } from "@/types/generator";
-
-const defaultInput: GeneratorInput = {};
-
-const makeIdea = (overrides?: Partial<GeneratorInput>): Idea =>
-  generateIdea(overrides ?? defaultInput, {}, null, []);
-
-describe("generateIdea", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
+import { scoreCombination } from "@/lib/coherence";
+import { defaultInput } from "@/lib/defaults";
+import {
+  audiences,
+  problems,
+  constraints,
+  productForms,
+} from "@/data/generatorData";
+import { GeneratorInput, Idea } from "@/types/generator";
+import { isCompatibleCombination, itemMatchesFilters } from "@/lib/rules";
+const makeIdea = (input: GeneratorInput = defaultInput): Idea => {
+  const idea = generateIdea(input, {}, null, []);
+  expect(idea).not.toBeNull();
+  return idea!;
+};
+afterEach(() => vi.restoreAllMocks());
+describe("defaults", () => {
+  it("starts with unrestricted filters and balanced enabled segments", () => {
+    expect(defaultInput).toEqual({
+      type: "product",
+      contextEnabled: true,
+      constraintEnabled: true,
+      surpriseLevel: "balanced",
+    });
+    expect(defaultInput.direction).toBeUndefined();
+    expect(defaultInput.constraintMode).toBeUndefined();
   });
-
-  it("always returns an idea", () => {
+});
+describe("complete candidate generation", () => {
+  it("returns metadata and all enabled segments", () => {
     const idea = makeIdea();
-    expect(idea).toBeDefined();
-  });
-
-  it("result contains id, createdAt, segments, sentence, input and signature", () => {
-    const idea = makeIdea();
-    expect(idea.id).toBeTypeOf("string");
-    expect(idea.createdAt).toBeTypeOf("string");
-    expect(idea.segments).toBeDefined();
-    expect(idea.sentence).toBeTypeOf("string");
-    expect(idea.input).toBeDefined();
-    expect(idea.signature).toBeTypeOf("string");
-  });
-
-  it("segments contain all five keys", () => {
-    const idea = makeIdea();
-    expect(idea.segments.productForm).toBeDefined();
-    expect(idea.segments.audience).toBeDefined();
-    expect(idea.segments.problem).toBeDefined();
+    expect(idea.id).toBeTruthy();
+    expect(idea.createdAt).toBeTruthy();
+    expect(idea.signature).toBeTruthy();
+    expect(idea.sentence).toContain("aan te pakken");
     expect(idea.segments.market).toBeDefined();
     expect(idea.segments.constraint).toBeDefined();
   });
-
-  it("uses filters when direction is specified", () => {
-    const input: GeneratorInput = { direction: "energyWaterSafety" };
-    const idea = generateIdea(input, {}, null, []);
-    // The idea should be generated successfully with or without filter match
-    expect(idea).toBeDefined();
-    expect(idea.input.direction).toBe("energyWaterSafety");
+  it.each([undefined, "random"] as const)(
+    "uses compatible product constraint metadata for all mode %s",
+    (constraintMode) => {
+      for (let i = 0; i < 30; i++) {
+        const idea = makeIdea({ constraintMode });
+        const { productForm, constraint } = idea.segments;
+        if (productForm.constraintModes?.length)
+          expect(
+            constraint?.constraintModes?.some((m) =>
+              productForm.constraintModes!.includes(m),
+            ),
+          ).toBe(true);
+        expect(
+          constraint?.constraintModes?.every((m) =>
+            isCompatibleCombination(idea.segments, m),
+          ),
+        ).toBe(true);
+      }
+    },
+  );
+  it.each(["humanHealth", "energyWaterSafety", "schoolEnvironment"] as const)(
+    "never relaxes explicit direction %s",
+    (direction) => {
+      for (let i = 0; i < 10; i++) {
+        const idea = makeIdea({ direction });
+        for (const item of Object.values(idea.segments))
+          expect(item.directions).toContain(direction);
+      }
+    },
+  );
+  it.each([
+    "withoutPower",
+    "withoutApp",
+    "foldable",
+    "waterResistant",
+  ] as const)("preserves explicit constraint %s", (constraintMode) => {
+    for (let i = 0; i < 10; i++) {
+      const idea = makeIdea({ constraintMode });
+      expect(idea.segments.constraint?.constraintModes).toContain(
+        constraintMode,
+      );
+      expect(isCompatibleCombination(idea.segments, constraintMode)).toBe(true);
+    }
   });
-
-  it("locked segments remain unchanged", () => {
-    const firstIdea = makeIdea();
-    const locked: Partial<Record<IdeaSegmentKey, boolean>> = {
+  it("returns failure on an empty pool instead of ignoring filters", () => {
+    expect(
+      generateIdea({ direction: "classroomLayout" }, {}, null, []),
+    ).toBeNull();
+  });
+  it("validates locks against changed filters", () => {
+    const first = makeIdea({ direction: "humanHealth" });
+    expect(
+      generateIdea({ direction: "makerSpace" }, { audience: true }, first, []),
+    ).toBeNull();
+  });
+  it("keeps locks and can reuse a fully locked recent idea", () => {
+    const first = makeIdea();
+    const locks = {
       productForm: true,
       audience: true,
+      problem: true,
+      market: true,
+      constraint: true,
     };
-
-    const secondIdea = generateIdea(defaultInput, locked, firstIdea, []);
-    expect(secondIdea.segments.productForm.id).toBe(
-      firstIdea.segments.productForm.id,
-    );
-    expect(secondIdea.segments.audience.id).toBe(
-      firstIdea.segments.audience.id,
-    );
+    const next = generateIdea(defaultInput, locks, first, [first.signature]);
+    expect(next?.segments).toEqual(first.segments);
   });
-
-  it("avoids recent signatures when possible", () => {
-    // Generate many ideas and collect signatures
-    const signatures: string[] = [];
-    for (let i = 0; i < 10; i++) {
-      const idea = generateIdea(defaultInput, {}, null, signatures);
-      // With enough variety, duplicates should be rare
-      if (!signatures.includes(idea.signature)) {
-        signatures.push(idea.signature);
-      }
-    }
-    // We should have gotten at least a few unique signatures
-    expect(signatures.length).toBeGreaterThan(1);
+  it.each([
+    [false, false],
+    [false, true],
+    [true, false],
+    [true, true],
+  ])(
+    "supports context %s and constraint %s",
+    (contextEnabled, constraintEnabled) => {
+      const idea = makeIdea({ contextEnabled, constraintEnabled });
+      expect(!!idea.segments.market).toBe(contextEnabled);
+      expect(!!idea.segments.constraint).toBe(constraintEnabled);
+    },
+  );
+  it("ignores disabled constraints even with incompatible filter and lock", () => {
+    const first = makeIdea();
+    first.segments.productForm = productForms.find(
+      (p) => p.id === "pf-modulair-opbergsysteem",
+    )!;
+    const idea = generateIdea(
+      { constraintEnabled: false, constraintMode: "withoutPower" },
+      { productForm: true, constraint: true },
+      first,
+      [],
+    );
+    expect(idea?.segments.productForm).toEqual(first.segments.productForm);
+    expect(idea?.segments.constraint).toBeUndefined();
   });
-
-  it("fallback gives a usable idea when filters are very strict", () => {
-    // Use a very restrictive combination that likely exhausts attempts
+  it("disabled context does not require a context pool", () => {
+    const idea = makeIdea({
+      direction: "classroomLayout",
+      contextEnabled: false,
+      constraintEnabled: false,
+    });
+    expect(idea.segments.market).toBeUndefined();
+  });
+  it("avoids recent signatures when alternatives exist", () => {
+    const first = makeIdea();
+    expect(
+      generateIdea(defaultInput, {}, first, [first.signature])?.signature,
+    ).not.toBe(first.signature);
+  });
+  it("does not use a random fallback even with exhausted attempts", () => {
     vi.spyOn(Math, "random").mockReturnValue(0);
-    const input: GeneratorInput = {
-      direction: "energyWaterSafety",
-      type: "technicalDesign",
-      constraintMode: "withoutPower",
-    };
-    const idea = generateIdea(input, {}, null, [
-      // fill with fake signatures to trigger fallback
-      ...Array.from({ length: 30 }, (_, i) => `fake-sig-${i}`),
-    ]);
-    expect(idea).toBeDefined();
-    expect(idea.segments).toBeDefined();
-    expect(idea.sentence).toBeTypeOf("string");
+    const first = makeIdea({ constraintEnabled: false });
+    first.segments.constraint = constraints.find(
+      (c) => c.id === "co-zonder-stroom",
+    );
+    first.segments.productForm = productForms.find(
+      (p) => p.id === "pf-modulair-opbergsysteem",
+    )!;
+    expect(
+      generateIdea({}, { productForm: true, constraint: true }, first, []),
+    ).toBeNull();
+  });
+});
+describe("refresh", () => {
+  it("preserves other segments and id while changing the requested segment", () => {
+    const original = makeIdea({
+      contextEnabled: false,
+      constraintEnabled: false,
+    });
+    const next = refreshIdeaSegment("problem", original.input, original);
+    expect(next).not.toBeNull();
+    expect(next?.segments.problem.id).not.toBe(original.segments.problem.id);
+    expect(next?.segments.productForm).toEqual(original.segments.productForm);
+    expect(next?.segments.audience).toEqual(original.segments.audience);
+    expect(next?.id).toBe(original.id);
+  });
+  it("does not refresh a locked or disabled segment", () => {
+    const idea = makeIdea({ contextEnabled: false });
+    expect(
+      refreshIdeaSegment("productForm", idea.input, idea, {
+        productForm: true,
+      }),
+    ).toBe(idea);
+    expect(refreshIdeaSegment("market", idea.input, idea)).toBe(idea);
+  });
+  it("reports impossible refresh instead of relaxing filters", () => {
+    const idea = makeIdea({ direction: "humanHealth" });
+    expect(
+      refreshIdeaSegment("problem", { direction: "makerSpace" }, idea),
+    ).toBeNull();
+  });
+  it("applies filters and compatibility to refreshed products", () => {
+    const idea = makeIdea({
+      direction: "schoolEnvironment",
+      constraintMode: "fastPrototype",
+    });
+    const next = refreshIdeaSegment("productForm", idea.input, idea);
+    expect(next).not.toBeNull();
+    expect(
+      itemMatchesFilters(
+        next!.segments.productForm,
+        "schoolEnvironment",
+        undefined,
+        "fastPrototype",
+      ),
+    ).toBe(true);
+    expect(next?.segments.constraint).toEqual(idea.segments.constraint);
   });
 });
 
-describe("refreshIdeaSegment", () => {
-  it("changes only the requested segment and preserves the rest", () => {
-    const original = makeIdea();
-    const refreshed = refreshIdeaSegment("problem", defaultInput, original);
-
-    expect(refreshed.segments.productForm.id).toBe(
-      original.segments.productForm.id,
-    );
-    expect(refreshed.segments.audience.id).toBe(original.segments.audience.id);
-    expect(refreshed.segments.market.id).toBe(original.segments.market.id);
-    expect(refreshed.segments.constraint.id).toBe(
-      original.segments.constraint.id,
-    );
-    // sentence and signature should be recalculated
-    expect(refreshed.sentence).toBeTypeOf("string");
-    expect(refreshed.signature).toBeTypeOf("string");
+it("refresh uses surprise bands with the same candidate pool", () => {
+  const original = makeIdea({
+    contextEnabled: false,
+    constraintEnabled: false,
   });
-
-  it("keeps the same id as the original idea", () => {
-    const original = makeIdea();
-    const refreshed = refreshIdeaSegment("audience", defaultInput, original);
-    expect(refreshed.id).toBe(original.id);
+  original.segments.productForm = productForms.find(
+    (p) => p.id === "pf-protobot-voetbal",
+  )!;
+  original.segments.audience = audiences.find(
+    (a) => a.id === "au-basisschool",
+  )!;
+  original.segments.problem = problems.find((p) => p.id === "pr-voedsel")!;
+  const scores = ["logical", "balanced", "wild"].map((level) => {
+    let seed = 123;
+    vi.spyOn(Math, "random").mockImplementation(() => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    });
+    const next = refreshIdeaSegment(
+      "problem",
+      {
+        ...original.input,
+        surpriseLevel: level as "logical" | "balanced" | "wild",
+      },
+      original,
+    );
+    expect(next).not.toBeNull();
+    vi.restoreAllMocks();
+    return scoreCombination(next!.segments);
   });
+  expect(scores[0]).toBeGreaterThanOrEqual(scores[1]);
+  expect(scores[1]).toBeGreaterThanOrEqual(scores[2]);
+  expect(scores[0]).toBeGreaterThan(scores[2]);
 });
