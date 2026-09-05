@@ -4,6 +4,7 @@ import { protobotProductForms } from "@/data/protobotProductForms";
 export const productForms: CategoryItem[] = [
   {
     id: "pf-modulair-opbergsysteem",
+    semanticTags: ["storage", "organization", "making"],
     text: "modulair opbergsysteem",
     directions: ["schoolEnvironment", "makerSpace", "designProductionTrade"],
     typeCompatibility: ["product", "technicalDesign"],
@@ -11,6 +12,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-schermvrij-planning",
+    semanticTags: ["organization", "communication", "school"],
     text: "schermvrij planningsbord",
     directions: ["schoolEnvironment", "digitalMediaEntertainment"],
     typeCompatibility: ["product", "system"],
@@ -18,6 +20,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-mechanisch-sorteren",
+    semanticTags: ["organization", "waste", "making"],
     text: "mechanisch sorteersysteem",
     directions: ["makerSpace", "designProductionTrade"],
     typeCompatibility: ["technicalDesign", "system"],
@@ -25,6 +28,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-rustmeubel",
+    semanticTags: ["health", "indoor"],
     text: "compact rustmeubel",
     directions: ["schoolEnvironment", "humanHealth", "livingWorkTraffic"],
     typeCompatibility: ["space", "product"],
@@ -32,6 +36,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-fietsparkeerhulp",
+    semanticTags: ["mobility", "traffic", "storage"],
     text: "fietsparkeerhulp",
     directions: ["bikeStorage", "livingWorkTraffic"],
     typeCompatibility: ["product", "technicalDesign"],
@@ -39,6 +44,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-mini-kas",
+    semanticTags: ["nature", "learning", "science"],
     text: "mini-kas voor in de klas",
     directions: ["schoolEnvironment", "foodNature", "highTechScience"],
     typeCompatibility: ["product", "researchIdea"],
@@ -46,6 +52,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-veiligheidsindicator",
+    semanticTags: ["safety", "communication"],
     text: "veiligheidsindicator",
     directions: ["humanHealth", "energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["technicalDesign", "system"],
@@ -53,6 +60,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-watercoach",
+    semanticTags: ["water", "sustainability", "health"],
     text: "waterbesparende douchecoach",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["product", "researchIdea"],
@@ -60,6 +68,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-festivalmodule",
+    semanticTags: ["social", "sustainability", "materials"],
     text: "herbruikbare festivalmodule",
     directions: ["designProductionTrade", "digitalMediaEntertainment"],
     typeCompatibility: ["space", "system"],
@@ -67,6 +76,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-bewegingschallenge",
+    semanticTags: ["movement", "play", "health"],
     text: "sensorloze bewegingschallenge",
     directions: ["humanHealth", "schoolEnvironment"],
     typeCompatibility: ["system", "researchIdea"],
@@ -74,6 +84,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-ergonomische-tilhulp",
+    semanticTags: ["health", "accessibility", "movement"],
     text: "ergonomische tilhulp",
     directions: ["humanHealth", "designProductionTrade"],
     typeCompatibility: ["product"],
@@ -81,6 +92,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-waterlek-indicator",
+    semanticTags: ["water", "safety"],
     text: "waterlek-indicator",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["product"],
@@ -88,6 +100,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-voedselverspillingsmeter",
+    semanticTags: ["food", "waste", "measurement"],
     text: "voedselverspillingsmeter",
     directions: ["foodNature", "breakAndCafeteria"],
     typeCompatibility: ["product", "researchIdea"],
@@ -95,6 +108,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-fietsveiligheidsaccessoire",
+    semanticTags: ["mobility", "safety", "traffic"],
     text: "fietsveiligheidsaccessoire",
     directions: ["bikeStorage", "livingWorkTraffic", "energyWaterSafety"],
     typeCompatibility: ["product"],
@@ -102,6 +116,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-demontabele-productverpakking",
+    semanticTags: ["materials", "waste", "sustainability"],
     text: "demontabele productverpakking",
     directions: ["designProductionTrade", "foodNature"],
     typeCompatibility: ["product"],
@@ -109,6 +124,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-schermvrije-stemmodule",
+    semanticTags: ["communication", "social", "school"],
     text: "schermvrije stemmodule",
     directions: ["digitalMediaEntertainment", "schoolEnvironment"],
     typeCompatibility: ["product", "system"],
@@ -116,6 +132,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-compacte-gereedschapsorganizer",
+    semanticTags: ["storage", "organization", "making"],
     text: "compacte gereedschapsorganizer",
     directions: ["makerSpace", "designProductionTrade"],
     typeCompatibility: ["product"],
@@ -123,6 +140,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-meetobject-temperatuurverschil",
+    semanticTags: ["measurement", "science", "energy"],
     text: "meetobject voor temperatuurverschil",
     directions: ["highTechScience", "energyWaterSafety"],
     typeCompatibility: ["product", "researchIdea"],
@@ -130,6 +148,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-zorgsignaleringssysteem",
+    semanticTags: ["health", "communication", "accessibility"],
     text: "zorgsignaleringssysteem (offline)",
     directions: ["humanHealth", "digitalMediaEntertainment"],
     typeCompatibility: ["system"],
@@ -137,6 +156,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-waterbesparend-routinesysteem",
+    semanticTags: ["water", "sustainability", "organization"],
     text: "waterbesparend routinesysteem",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["system", "researchIdea"],
@@ -144,6 +164,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-circulair-materiaalinzamelsysteem",
+    semanticTags: ["waste", "materials", "sustainability"],
     text: "circulair materiaalinzamelsysteem",
     directions: ["designProductionTrade", "makerSpace"],
     typeCompatibility: ["system"],
@@ -151,6 +172,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-voedseldeel-systeem",
+    semanticTags: ["food", "waste", "social"],
     text: "voedseldeel-systeem voor overgebleven eten",
     directions: [
       "foodNature",
@@ -162,6 +184,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-looprouteverdeler",
+    semanticTags: ["mobility", "safety", "organization"],
     text: "looprouteverdeler voor drukke gangen",
     directions: ["schoolEnvironment", "livingWorkTraffic"],
     typeCompatibility: ["system", "space"],
@@ -169,6 +192,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-uitleensysteem-gereedschap",
+    semanticTags: ["making", "storage", "organization"],
     text: "modulair uitleensysteem voor gereedschap",
     directions: ["makerSpace", "designProductionTrade"],
     typeCompatibility: ["system"],
@@ -176,6 +200,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-privacyvriendelijk-feedbacksysteem",
+    semanticTags: ["privacy", "communication", "social"],
     text: "privacyvriendelijk feedbacksysteem",
     directions: ["digitalMediaEntertainment", "schoolEnvironment"],
     typeCompatibility: ["system"],
@@ -183,6 +208,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-testresultaten-vergelijkingssysteem",
+    semanticTags: ["measurement", "science", "making"],
     text: "testresultaten-vergelijkingssysteem",
     directions: ["highTechScience", "makerSpace"],
     typeCompatibility: ["system", "researchIdea"],
@@ -190,6 +216,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-prikkelarme-rustzone",
+    semanticTags: ["health", "indoor", "accessibility"],
     text: "prikkelarme rustzone",
     directions: ["humanHealth", "schoolEnvironment", "classroomLayout"],
     typeCompatibility: ["space"],
@@ -197,6 +224,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-veilige-evacuatieroutehoek",
+    semanticTags: ["safety", "mobility", "indoor"],
     text: "veilige evacuatieroutehoek",
     directions: ["energyWaterSafety", "schoolEnvironment"],
     typeCompatibility: ["space", "technicalDesign"],
@@ -204,6 +232,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-groene-schaduwplek",
+    semanticTags: ["nature", "outdoor", "sustainability"],
     text: "groene schaduwplek op het plein",
     directions: ["foodNature", "schoolEnvironment", "energyWaterSafety"],
     typeCompatibility: ["space"],
@@ -211,6 +240,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-flexibele-projectruimte",
+    semanticTags: ["learning", "making", "indoor"],
     text: "flexibele projectruimte",
     directions: [
       "schoolEnvironment",
@@ -222,6 +252,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-compacte-thuiswerkplek",
+    semanticTags: ["health", "indoor", "organization"],
     text: "compacte thuiswerkplek",
     directions: ["livingWorkTraffic", "humanHealth"],
     typeCompatibility: ["space"],
@@ -229,6 +260,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-afvalscheidingsplek",
+    semanticTags: ["waste", "sustainability", "organization"],
     text: "overzichtelijke afvalscheidingsplek",
     directions: ["breakAndCafeteria", "foodNature", "designProductionTrade"],
     typeCompatibility: ["space", "system"],
@@ -236,6 +268,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-tijdelijke-presentatiemarkt",
+    semanticTags: ["communication", "social", "making"],
     text: "tijdelijke presentatiemarkt",
     directions: ["digitalMediaEntertainment", "schoolEnvironment"],
     typeCompatibility: ["space"],
@@ -243,6 +276,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-prototype-testhoek",
+    semanticTags: ["science", "making", "learning"],
     text: "prototype-testhoek",
     directions: ["makerSpace", "highTechScience", "classroomLayout"],
     typeCompatibility: ["space", "researchIdea"],
@@ -250,6 +284,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-slimme-fietsenstallingszone",
+    semanticTags: ["mobility", "traffic", "storage"],
     text: "slimme fietsenstallingszone",
     directions: ["bikeStorage", "livingWorkTraffic"],
     typeCompatibility: ["space", "system"],
@@ -257,6 +292,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-mechanische-overstromingsmelder",
+    semanticTags: ["water", "safety", "making"],
     text: "mechanische overstromingsmelder",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
     typeCompatibility: ["technicalDesign"],
@@ -264,6 +300,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-noodverlichtingsmodule",
+    semanticTags: ["safety", "energy"],
     text: "noodverlichtingsmodule",
     directions: ["energyWaterSafety", "schoolEnvironment"],
     typeCompatibility: ["technicalDesign"],
@@ -271,6 +308,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-houding-feedbackmechanisme",
+    semanticTags: ["health", "measurement", "movement"],
     text: "houding-feedbackmechanisme",
     directions: ["humanHealth", "highTechScience"],
     typeCompatibility: ["technicalDesign"],
@@ -278,6 +316,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-kwaliteitscontrole-mal",
+    semanticTags: ["making", "measurement", "materials"],
     text: "kwaliteitscontrole-mal",
     directions: ["designProductionTrade", "makerSpace"],
     typeCompatibility: ["technicalDesign"],
@@ -285,6 +324,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-modulair-assemblagesysteem",
+    semanticTags: ["making", "materials", "organization"],
     text: "modulair assemblagesysteem",
     directions: ["designProductionTrade", "makerSpace"],
     typeCompatibility: ["technicalDesign", "system"],
@@ -292,6 +332,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-schaalmodeltestbank",
+    semanticTags: ["science", "measurement", "making"],
     text: "schaalmodeltestbank",
     directions: ["highTechScience", "makerSpace"],
     typeCompatibility: ["technicalDesign", "researchIdea"],
@@ -299,6 +340,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-materiaalsterkte-testmodule",
+    semanticTags: ["materials", "measurement", "science"],
     text: "materiaalsterkte-testmodule",
     directions: ["highTechScience", "designProductionTrade"],
     typeCompatibility: ["technicalDesign", "researchIdea"],
@@ -306,6 +348,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-werkhouding-meetopstelling",
+    semanticTags: ["health", "measurement"],
     text: "meetopstelling voor betere werkhouding",
     directions: ["humanHealth", "classroomLayout"],
     typeCompatibility: ["researchIdea"],
@@ -313,6 +356,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-waterbesparing-testopstelling",
+    semanticTags: ["water", "measurement", "sustainability"],
     text: "testopstelling voor waterbesparing",
     directions: ["energyWaterSafety", "highTechScience"],
     typeCompatibility: ["researchIdea"],
@@ -320,6 +364,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-voedselverspilling-experimentmodule",
+    semanticTags: ["food", "waste", "science"],
     text: "experimentmodule voor voedselverspilling",
     directions: ["foodNature", "breakAndCafeteria"],
     typeCompatibility: ["researchIdea"],
@@ -327,6 +372,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-loopstromen-meetmethode",
+    semanticTags: ["mobility", "measurement"],
     text: "meetmethode voor loopstromen",
     directions: ["livingWorkTraffic", "schoolEnvironment"],
     typeCompatibility: ["researchIdea", "system"],
@@ -334,6 +380,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-herbruikbare-materialen-vergelijking",
+    semanticTags: ["materials", "sustainability", "science"],
     text: "vergelijkingsopstelling voor herbruikbare materialen",
     directions: ["designProductionTrade", "makerSpace"],
     typeCompatibility: ["researchIdea"],
@@ -341,6 +388,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-isolatie-warmteverlies-experiment",
+    semanticTags: ["energy", "science", "measurement"],
     text: "experimentmodule voor isolatie en warmteverlies",
     directions: ["energyWaterSafety", "highTechScience", "livingWorkTraffic"],
     typeCompatibility: ["researchIdea"],
@@ -348,6 +396,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-biodiversiteit-schoolplein-meting",
+    semanticTags: ["nature", "outdoor", "science"],
     text: "meetmethode voor biodiversiteit op het schoolplein",
     directions: ["foodNature", "schoolEnvironment", "highTechScience"],
     typeCompatibility: ["researchIdea"],
@@ -355,6 +404,7 @@ export const productForms: CategoryItem[] = [
   },
   {
     id: "pf-geluid-concentratie-meting",
+    semanticTags: ["health", "measurement", "school"],
     text: "meting van geluid en concentratie",
     directions: ["humanHealth", "schoolEnvironment", "classroomLayout"],
     typeCompatibility: ["researchIdea"],
@@ -366,51 +416,61 @@ export const productForms: CategoryItem[] = [
 export const audiences: CategoryItem[] = [
   {
     id: "au-brugklassers",
+    semanticTags: ["children", "school", "learning"],
     text: "brugklassers",
     directions: ["schoolEnvironment", "breakAndCafeteria", "bikeStorage"],
   },
   {
     id: "au-docenten",
+    semanticTags: ["school", "learning", "communication"],
     text: "docenten in een druk lokaal",
     directions: ["schoolEnvironment", "classroomLayout"],
   },
   {
     id: "au-ouderen",
+    semanticTags: ["health", "accessibility", "indoor"],
     text: "ouderen die zelfstandig wonen",
     directions: ["humanHealth", "livingWorkTraffic"],
   },
   {
     id: "au-sporters",
+    semanticTags: ["sports", "movement", "health"],
     text: "sporters bij een vereniging",
     directions: ["humanHealth"],
   },
   {
     id: "au-forenzen",
+    semanticTags: ["mobility", "traffic"],
     text: "forenzen op een druk station",
     directions: ["livingWorkTraffic"],
   },
   {
     id: "au-makerspace",
+    semanticTags: ["school", "learning", "making"],
     text: "leerlingen in de MakerSpace",
     directions: ["makerSpace", "designProductionTrade", "highTechScience"],
   },
   {
     id: "au-gezinnen",
+    semanticTags: ["social", "indoor", "food"],
     text: "gezinnen thuis",
     directions: ["livingWorkTraffic", "energyWaterSafety", "foodNature"],
   },
   {
     id: "au-festival",
+    semanticTags: ["social", "outdoor", "communication"],
     text: "bezoekers van een festival",
     directions: ["digitalMediaEntertainment", "designProductionTrade"],
   },
   {
     id: "au-basisschool",
+    semanticTags: ["children", "school", "play", "learning"],
     text: "basisschoolleerlingen",
     directions: ["schoolEnvironment", "humanHealth"],
   },
   {
     id: "au-buurt",
+    semanticTags: ["water", "safety", "social"],
     text: "buurtbewoners bij wateroverlast",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
   },
@@ -419,51 +479,61 @@ export const audiences: CategoryItem[] = [
 export const problems: CategoryItem[] = [
   {
     id: "pr-vergeten",
+    semanticTags: ["storage", "organization", "school"],
     text: "het vergeten van spullen",
     directions: ["schoolEnvironment", "classroomLayout"],
   },
   {
     id: "pr-restafval",
+    semanticTags: ["waste", "food", "sustainability"],
     text: "te veel restafval in de pauze",
     directions: ["breakAndCafeteria", "foodNature", "designProductionTrade"],
   },
   {
     id: "pr-drukte",
+    semanticTags: ["traffic", "mobility", "safety"],
     text: "drukte en botsingen",
     directions: ["bikeStorage", "livingWorkTraffic"],
   },
   {
     id: "pr-beweging",
+    semanticTags: ["movement", "health"],
     text: "te weinig beweging op een dag",
     directions: ["humanHealth"],
   },
   {
     id: "pr-verspilling",
+    semanticTags: ["water", "energy", "sustainability"],
     text: "water- en energieverspilling",
     directions: ["energyWaterSafety", "foodNature", "livingWorkTraffic"],
   },
   {
     id: "pr-routes",
+    semanticTags: ["mobility", "organization"],
     text: "onduidelijke looproutes",
     directions: ["schoolEnvironment", "livingWorkTraffic"],
   },
   {
     id: "pr-voedsel",
+    semanticTags: ["food", "waste", "sustainability"],
     text: "voedselverspilling",
     directions: ["foodNature", "schoolEnvironment", "designProductionTrade"],
   },
   {
     id: "pr-overprikkeling",
+    semanticTags: ["health", "indoor"],
     text: "lawaai en overprikkeling",
     directions: ["schoolEnvironment", "humanHealth"],
   },
   {
     id: "pr-onderdelen",
+    semanticTags: ["storage", "organization", "making"],
     text: "het kwijtraken van kleine onderdelen",
     directions: ["makerSpace", "designProductionTrade"],
   },
   {
     id: "pr-zicht",
+    semanticTags: ["safety", "mobility"],
     text: "onveiligheid bij slecht zicht",
     directions: ["livingWorkTraffic", "energyWaterSafety", "humanHealth"],
   },
@@ -472,46 +542,64 @@ export const problems: CategoryItem[] = [
 export const markets: CategoryItem[] = [
   {
     id: "ma-aula",
+    contextPhrase: "in de aula",
+    semanticTags: ["school", "indoor", "social", "food"],
     text: "de aula",
     directions: ["schoolEnvironment", "breakAndCafeteria"],
   },
   {
     id: "ma-fietsenstalling",
+    contextPhrase: "in de fietsenstalling",
+    semanticTags: ["mobility", "storage", "traffic"],
     text: "de fietsenstalling",
     directions: ["bikeStorage", "livingWorkTraffic", "schoolEnvironment"],
   },
   {
     id: "ma-verzorgingshuis",
+    contextPhrase: "in een verzorgingshuis",
+    semanticTags: ["health", "accessibility", "indoor"],
     text: "een verzorgingshuis",
     directions: ["humanHealth"],
   },
   {
     id: "ma-sportclub",
+    contextPhrase: "bij een sportclub",
+    semanticTags: ["sports", "movement", "social"],
     text: "een sportclub",
     directions: ["humanHealth"],
   },
   {
     id: "ma-station",
+    contextPhrase: "op een station",
+    semanticTags: ["mobility", "traffic"],
     text: "een station",
     directions: ["livingWorkTraffic"],
   },
   {
     id: "ma-makerspace",
+    contextPhrase: "in de MakerSpace",
+    semanticTags: ["making", "learning", "materials"],
     text: "de MakerSpace",
     directions: ["makerSpace", "designProductionTrade", "highTechScience"],
   },
   {
     id: "ma-badkamer",
+    contextPhrase: "in een kleine badkamer",
+    semanticTags: ["water", "indoor", "health"],
     text: "een kleine badkamer",
     directions: ["livingWorkTraffic", "energyWaterSafety"],
   },
   {
     id: "ma-festival",
+    contextPhrase: "op een festivalterrein",
+    semanticTags: ["social", "outdoor", "communication"],
     text: "een festivalterrein",
     directions: ["digitalMediaEntertainment", "designProductionTrade"],
   },
   {
     id: "ma-schoolplein",
+    contextPhrase: "op een schoolplein",
+    semanticTags: ["school", "outdoor", "play", "movement"],
     text: "een schoolplein",
     directions: [
       "schoolEnvironment",
@@ -522,6 +610,8 @@ export const markets: CategoryItem[] = [
   },
   {
     id: "ma-wateroverlast",
+    contextPhrase: "in een buurt met wateroverlast",
+    semanticTags: ["water", "outdoor", "safety"],
     text: "een buurt met wateroverlast",
     directions: ["energyWaterSafety", "livingWorkTraffic"],
   },
@@ -530,61 +620,61 @@ export const markets: CategoryItem[] = [
 export const constraints: CategoryItem[] = [
   {
     id: "co-zonder-app",
-    text: "zonder app werkt",
+    text: "zonder app te gebruiken",
     directions: ["schoolEnvironment", "digitalMediaEntertainment"],
     constraintModes: ["withoutApp"],
   },
   {
     id: "co-lesuur",
-    text: "binnen één lesuur te prototypen is",
+    text: "binnen één lesuur te prototypen",
     directions: ["schoolEnvironment", "makerSpace"],
     constraintModes: ["fastPrototype"],
   },
   {
     id: "co-restmateriaal",
-    text: "gemaakt wordt van restmateriaal",
+    text: "gemaakt van restmateriaal",
     directions: ["makerSpace", "designProductionTrade"],
     constraintModes: ["recycledMaterial"],
   },
   {
     id: "co-zonder-stroom",
-    text: "zonder stroom werkt",
+    text: "zonder stroom te gebruiken",
     directions: ["energyWaterSafety", "digitalMediaEntertainment"],
     constraintModes: ["withoutPower"],
   },
   {
     id: "co-budget",
-    text: "maximaal tien euro per gebruiker kost",
+    text: "maximaal tien euro per gebruiker",
     directions: ["schoolEnvironment", "designProductionTrade"],
     constraintModes: ["maxTenEuro"],
   },
   {
     id: "co-inklapbaar",
-    text: "inklapbaar en verplaatsbaar is",
+    text: "inklapbaar en verplaatsbaar",
     directions: ["livingWorkTraffic", "schoolEnvironment"],
     constraintModes: ["foldable"],
   },
   {
     id: "co-waterbestendig",
-    text: "waterbestendig is",
+    text: "waterbestendig",
     directions: ["energyWaterSafety", "livingWorkTraffic", "humanHealth"],
     constraintModes: ["waterResistant"],
   },
   {
     id: "co-aanpasbaar",
-    text: "door leerlingen zelf aangepast kan worden",
+    text: "door leerlingen zelf aan te passen",
     directions: ["schoolEnvironment", "makerSpace"],
     constraintModes: ["fastPrototype", "recycledMaterial"],
   },
   {
     id: "co-lowtech",
-    text: "mechanisch en low-tech blijft",
+    text: "mechanisch en low-tech",
     directions: ["makerSpace", "designProductionTrade", "schoolEnvironment"],
     constraintModes: ["mechanical", "withoutPower"],
   },
   {
     id: "co-schaalmodel",
-    text: "veilig getest kan worden met een schaalmodel",
+    text: "veilig te testen met een schaalmodel",
     directions: ["makerSpace", "highTechScience", "schoolEnvironment"],
     constraintModes: ["scaleModelSafe"],
   },

@@ -5,6 +5,8 @@ import {
   Direction,
 } from "@/types/generator";
 
+import { protobotSemanticTags } from "@/data/semanticTags";
+
 type ProductFormSeed = readonly [
   slug: string,
   text: string,
@@ -1670,5 +1672,6 @@ export const protobotProductForms: CategoryItem[] = sourceItems.map(
     typeCompatibility: [...typeCompatibility],
     ...(constraintModes ? { constraintModes: [...constraintModes] } : {}),
     tags: ["protobot"],
+    semanticTags: protobotSemanticTags[slug],
   }),
 );

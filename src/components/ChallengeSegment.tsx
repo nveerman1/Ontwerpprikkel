@@ -12,7 +12,7 @@ export default function ChallengeSegment({
   onRefresh,
 }: ChallengeSegmentProps) {
   return (
-    <span className="group inline-flex items-baseline gap-[0.08em]">
+    <span className="group inline items-baseline gap-[0.08em]">
       <span className="text-white underline-offset-8 [text-decoration-thickness:5px] group-hover:underline">
         {text}
       </span>
@@ -29,7 +29,8 @@ export default function ChallengeSegment({
           {locked ? "🔒" : "🔓"}
         </button>
         <button
-          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-white/14 text-xs text-white/80"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-white/14 text-xs text-white/80 disabled:opacity-30"
+          disabled={locked}
           onClick={onRefresh}
           title="Alleen dit segment verversen"
           aria-label="Alleen dit segment verversen"

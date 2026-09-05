@@ -1,13 +1,19 @@
-import { IdeaSegments } from "@/types/generator";
-
-export const formatIdeaSentence = (segments: IdeaSegments) =>
-  `Ontwerp een ${segments.productForm.text} voor ${segments.audience.text} dat helpt bij ${segments.problem.text} in ${segments.market.text}, met als beperking dat het ${segments.constraint.text}.`;
-
-export const ideaSignature = (segments: IdeaSegments) =>
+import { CategoryItem, Idea, IdeaSegments } from "@/types/generator";
+export const contextPhrase = (market: CategoryItem) =>
+  market.contextPhrase ?? `in ${market.text}`;
+export const formatConstraint = (segments: IdeaSegments) =>
+  segments.constraint
+    ? `Randvoorwaarde: ${segments.constraint.text.replace(/\.$/, "")}.`
+    : "";
+export const formatIdeaSentence = (s: IdeaSegments) =>
+  `Ontwerp een ${s.productForm.text} voor ${s.audience.text} om ${s.problem.text} aan te pakken${s.market ? ` ${contextPhrase(s.market)}` : ""}.`;
+export const formatIdeaText = (idea: Idea) =>
+  [idea.sentence, formatConstraint(idea.segments)].filter(Boolean).join("\n\n");
+export const ideaSignature = (s: IdeaSegments) =>
   [
-    segments.productForm.id,
-    segments.audience.id,
-    segments.problem.id,
-    segments.market.id,
-    segments.constraint.id,
+    s.productForm.id,
+    s.audience.id,
+    s.problem.id,
+    s.market?.id ?? "",
+    s.constraint?.id ?? "",
   ].join("|");

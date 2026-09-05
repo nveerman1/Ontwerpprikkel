@@ -11,6 +11,12 @@ import { directionGroupLabel, directionOptions } from "@/data/directions";
 import { defaultWorkformId, workforms } from "@/data/workforms";
 import { generateIdea, refreshIdeaSegment } from "@/lib/generator";
 import { improveIdea } from "@/lib/improveIdea";
+import { defaultInput, GENERATION_FAILURE } from "@/lib/defaults";
+import {
+  formatIdeaText,
+  formatIdeaSentence,
+  ideaSignature,
+} from "@/lib/formatIdea";
 import { copyText } from "@/lib/copy";
 import { loadSavedIdeas, persistSavedIdeas } from "@/lib/storage";
 import {
@@ -32,12 +38,6 @@ const typeOptions = [
   { value: "researchIdea", label: "Onderzoeksidee" },
 ] as const;
 
-const defaultInput: GeneratorInput = {
-  type: "product",
-  direction: "schoolEnvironment",
-  constraintMode: "fastPrototype",
-};
-
 const TOAST_DURATION_MS = 2200;
 const MAX_SAVED_IDEAS = 30;
 
@@ -46,9 +46,9 @@ const buildCopyText = (idea: Idea, selectedWorkformId?: string) => {
     ? workforms.find((item) => item.id === selectedWorkformId)
     : null;
 
-  if (!selectedWorkform) return idea.sentence;
+  if (!selectedWorkform) return formatIdeaText(idea);
 
-  return `${idea.sentence}\n\nWerkvorm: ${selectedWorkform.title}\nDoel: ${selectedWorkform.goal}`;
+  return `${formatIdeaText(idea)}\n\nWerkvorm: ${selectedWorkform.title}\nDoel: ${selectedWorkform.goal}`;
 };
 
 export default function Home() {
@@ -63,6 +63,7 @@ export default function Home() {
   const [savedIdeas, setSavedIdeas] = useState<SavedIdea[]>([]);
   const [savedDrawerOpen, setSavedDrawerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [generationError, setGenerationError] = useState(false);
   const [fallbackCopyText, setFallbackCopyText] = useState("");
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -73,7 +74,7 @@ export default function Home() {
   useEffect(() => {
     const initialIdea = generateIdea(defaultInput, {}, null, []);
     setCurrentIdea(initialIdea); // eslint-disable-line react-hooks/set-state-in-effect -- one-time client init for SSR-unsafe values
-    setRecentSignatures([initialIdea.signature]);
+    setRecentSignatures(initialIdea ? [initialIdea.signature] : []);
     setSavedIdeas(loadSavedIdeas());
   }, []);
 
@@ -86,13 +87,15 @@ export default function Home() {
   }, []);
 
   const directionDropdownOptions = useMemo(
-    () =>
-      directionOptions.map((item) => ({
+    () => [
+      { value: "", label: "Alle richtingen" },
+      ...directionOptions.map((item) => ({
         value: item.value,
         label: item.label,
         description: item.description,
         group: directionGroupLabel[item.group],
       })),
+    ],
     [],
   );
 
@@ -124,12 +127,39 @@ export default function Home() {
     recent = recentSignatures,
   ) => {
     const nextIdea = generateIdea(customInput, customLocks, baseIdea, recent);
+    setGenerationError(!nextIdea);
+    if (!nextIdea) {
+      setFallbackCopyText("");
+      return;
+    }
     setCurrentIdea(nextIdea);
     setRecentSignatures((prev) => [nextIdea.signature, ...prev].slice(0, 10));
     setFallbackCopyText("");
-    if (nextIdea.usedFallback) {
-      showToast("Geen perfecte match — filters zijn versoepeld");
-    }
+  };
+
+  const handleOptionalChange = (
+    key: "contextEnabled" | "constraintEnabled",
+    enabled: boolean,
+  ) => {
+    const nextInput = { ...input, [key]: enabled };
+    const segmentKey = key === "contextEnabled" ? "market" : "constraint";
+    const nextLocks = { ...lockedSegments, [segmentKey]: false };
+    setInput(nextInput);
+    setLockedSegments(nextLocks);
+    setFallbackCopyText("");
+    if (!enabled && currentIdea) {
+      setGenerationError(false);
+      const segments = { ...currentIdea.segments };
+      delete segments[segmentKey];
+      setCurrentIdea({
+        ...currentIdea,
+        input: nextInput,
+        segments,
+        sentence: formatIdeaSentence(segments),
+        signature: ideaSignature(segments),
+        improvements: undefined,
+      });
+    } else regenerate(nextInput, nextLocks);
   };
 
   const handleNewChallenge = () => {
@@ -138,7 +168,13 @@ export default function Home() {
 
   const handleRefreshSegment = (key: IdeaSegmentKey) => {
     if (!currentIdea) return;
-    const next = refreshIdeaSegment(key, input, currentIdea);
+    const next = refreshIdeaSegment(key, input, currentIdea, lockedSegments);
+    if (!next) {
+      showToast(GENERATION_FAILURE);
+      return;
+    }
+    setGenerationError(false);
+    setFallbackCopyText("");
     setCurrentIdea(next);
     setRecentSignatures((prev) => [next.signature, ...prev].slice(0, 10));
   };
@@ -167,7 +203,10 @@ export default function Home() {
   };
 
   const handleCopy = async (idea: Idea) => {
-    const text = buildCopyText(idea, selectedWorkformId);
+    const text = buildCopyText(
+      idea,
+      idea === currentIdea ? selectedWorkformId : idea.selectedWorkformId,
+    );
     const copied = await copyText(text);
 
     if (copied) {
@@ -208,6 +247,15 @@ export default function Home() {
 
   const handleUseSaved = (idea: SavedIdea) => {
     setCurrentIdea(idea);
+    setGenerationError(false);
+    setFallbackCopyText("");
+    setInput({
+      ...defaultInput,
+      ...idea.input,
+      contextEnabled: !!idea.segments.market,
+      constraintEnabled: !!idea.segments.constraint,
+    });
+    setLockedSegments({});
     setSelectedWorkformId(idea.selectedWorkformId ?? defaultWorkformId);
     setSavedDrawerOpen(false);
   };
@@ -227,8 +275,20 @@ export default function Home() {
       />
       <FilterBar
         type={input.type ?? "product"}
-        direction={input.direction ?? "schoolEnvironment"}
+        direction={input.direction ?? ""}
         constraintMode={input.constraintMode ?? "random"}
+        contextEnabled={input.contextEnabled !== false}
+        constraintEnabled={input.constraintEnabled !== false}
+        surpriseLevel={input.surpriseLevel ?? "balanced"}
+        onContextChange={(enabled) =>
+          handleOptionalChange("contextEnabled", enabled)
+        }
+        onConstraintEnabledChange={(enabled) =>
+          handleOptionalChange("constraintEnabled", enabled)
+        }
+        onSurpriseChange={(surpriseLevel) =>
+          setInput((prev) => ({ ...prev, surpriseLevel }))
+        }
         typeOptions={[...typeOptions]}
         directionOptions={directionDropdownOptions}
         constraintOptions={constraintDropdownOptions}
@@ -236,7 +296,10 @@ export default function Home() {
           setInput((prev) => ({ ...prev, type: value as AssignmentType }))
         }
         onDirectionChange={(value) =>
-          setInput((prev) => ({ ...prev, direction: value as Direction }))
+          setInput((prev) => ({
+            ...prev,
+            direction: (value || undefined) as Direction | undefined,
+          }))
         }
         onConstraintChange={(value) =>
           setInput((prev) => ({
@@ -251,6 +314,12 @@ export default function Home() {
       />
 
       <main className="w-full px-4 pb-10 pt-6 md:px-6">
+        {generationError && (
+          <p role="alert" className="mb-6 rounded-xl bg-black/15 p-4 font-bold">
+            {GENERATION_FAILURE}{" "}
+            {currentIdea ? "De vorige uitdaging is behouden." : ""}
+          </p>
+        )}
         {currentIdea ? (
           <ChallengeArea
             idea={currentIdea}
@@ -262,8 +331,9 @@ export default function Home() {
           />
         ) : (
           <p className="text-lg font-bold">
-            Geen passende combinatie gevonden. Kies een andere richting of
-            randvoorwaarde.
+            {generationError
+              ? "Pas de filters aan en probeer opnieuw."
+              : "Uitdaging wordt geladen…"}
           </p>
         )}
 

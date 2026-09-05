@@ -6,7 +6,7 @@ export interface ConstraintOption {
 }
 
 export const constraintOptions: ConstraintOption[] = [
-  { value: "random", label: "Verrassend/random" },
+  { value: "random", label: "Alle randvoorwaarden" },
   { value: "fastPrototype", label: "Snel prototype" },
   { value: "withoutApp", label: "Zonder app" },
   { value: "withoutPower", label: "Zonder stroom" },

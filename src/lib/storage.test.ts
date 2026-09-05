@@ -93,3 +93,40 @@ describe("storage", () => {
     });
   });
 });
+
+it("rejects malformed stored array entries without crashing", () => {
+  localStorage.setItem(
+    SAVED_IDEAS_KEY,
+    JSON.stringify([null, {}, { segments: {} }, makeSavedIdea()]),
+  );
+  expect(loadSavedIdeas()).toEqual([makeSavedIdea()]);
+});
+it("round-trips optional segments", () => {
+  const idea = makeSavedIdea();
+  delete idea.segments.market;
+  delete idea.segments.constraint;
+  persistSavedIdeas([idea]);
+  expect(loadSavedIdeas()).toEqual([idea]);
+});
+it("migrates known old context grammar", () => {
+  const idea = makeSavedIdea();
+  idea.sentence =
+    "Ontwerp een houder dat helpt bij organisatie in een schoolplein.";
+  idea.segments.market = {
+    id: "ma-schoolplein",
+    text: "een schoolplein",
+    directions: [],
+  };
+  persistSavedIdeas([idea]);
+  expect(loadSavedIdeas()[0].sentence).toContain("op een schoolplein");
+  expect(loadSavedIdeas()[0].sentence).not.toContain("dat helpt bij");
+});
+
+it("drops invalid surprise values instead of crashing after reuse", () => {
+  const idea = makeSavedIdea();
+  localStorage.setItem(
+    SAVED_IDEAS_KEY,
+    JSON.stringify([{ ...idea, input: { surpriseLevel: "invalid" } }]),
+  );
+  expect(loadSavedIdeas()).toEqual([]);
+});

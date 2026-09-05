@@ -1,3 +1,4 @@
+import { formatConstraint } from "@/lib/formatIdea";
 import { SavedIdea, Workform } from "@/types/generator";
 
 interface SavedIdeasDrawerProps {
@@ -65,6 +66,11 @@ export default function SavedIdeasDrawer({
                 <p className="mb-2 text-sm leading-relaxed text-[#555]">
                   {idea.sentence}
                 </p>
+                {idea.segments.constraint && (
+                  <p className="mb-2 text-sm">
+                    {formatConstraint(idea.segments)}
+                  </p>
+                )}
                 {workform && (
                   <p className="mb-2 text-xs font-bold text-[#9b5c48]">
                     Werkvorm: {workform.title}
